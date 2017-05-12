@@ -1,8 +1,7 @@
 'use strict';
 
 var should = require('should');
-var rewire = require('rewire');
-var Command = rewire('../../src/core/command.js');
+var Command = require('../../src/core/command.js');
 
 describe('Command', function() {
   
@@ -18,13 +17,13 @@ describe('Command', function() {
   });
   
   it('instantiation success depends on params', function() {
-
     should.doesNotThrow(function(){
       new Command({
-        command: 'hello',
+        command: 'help',
         description: 'print out help a help statement',
-        args: ['test', 'a']
+        run: function(){}
       });
     })
   });
+
 });
