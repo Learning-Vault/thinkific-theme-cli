@@ -5,8 +5,9 @@
   "main": "think.js",
   "scripts": {
     "start": "think.js",
-    "test": "./node_modules/.bin/mocha --recursive",
-    "watch-test": "nodemon ./node_modules/.bin/mocha --recursive"
+    "test": "NODE_ENV=test  ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors --recursive",
+    "watch-test": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors --recursive",
+    "check-coverage": "./node_modules/.bin/istanbul check-coverage --statements 71.43 --functions 0 --branches 50 --lines 71.43"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/thinkific/think-npm#readme",
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
     "rewire": "^2.5.2",
