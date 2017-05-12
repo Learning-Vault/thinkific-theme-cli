@@ -13,13 +13,16 @@ var validate_params = function(params) {
       throw Error(required_param + ' is required');
     }
   });
+
 }
 
 var Command = function(params) {
   
   validate_params(params);
   this.options = params;
-
+  
+  // setup function that will execute function
+  this.run = this.options.run;
 }
 
 module.exports = Command;

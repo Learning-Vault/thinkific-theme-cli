@@ -16,13 +16,18 @@ describe('Command', function() {
     }, /command is required/);
   });
   
-  it('instantiation success depends on params', function() {
+  it('instantiation success depends on params', function(test_cb) {
     should.doesNotThrow(function(){
-      new Command({
+      var c = new Command({
         command: 'help',
         description: 'print out help a help statement',
-        run: function(){}
+        run: function(){
+          test_cb();
+        }
       });
+      
+      // this will run the test
+      c.run();
     })
   });
 

@@ -22,7 +22,8 @@
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
     "rewire": "^2.5.2",
-    "should": "^11.2.1"
+    "should": "^11.2.1",
+    "sinon": "^2.2.0"
   },
   "dependencies": {
     "async": "^2.4.0",
