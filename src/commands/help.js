@@ -16,13 +16,13 @@ var get_available_commands = function() {
   return fs.readdirSync(__dirname);
 };
 
-
-
 var help = new Command({
   description: 'prints out help a help statement',
   run: function() {
+
     // load all modules
     var files = get_available_commands();
+
     files.forEach(function(file) {
       var mod = ( module == file_name) ? help : require(
         path.resolve(__dirname, file));
@@ -30,11 +30,8 @@ var help = new Command({
       var dsc = mod.options.description;
       output += `
     ${chalk.cyan('"think.js ' + cmd + '"')}\t${chalk.white(dsc)}`;
-      // console.log(module);
-      // help_output += `    chalk.cyan('"./think.js wizard setup"')}`;
     }, this);
-    // concat command info to string
-    // print
+
     print(output);
   }
 });

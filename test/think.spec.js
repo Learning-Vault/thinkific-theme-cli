@@ -17,28 +17,32 @@ describe('think.js', function() {
   });
 
   it('calls help if no command is understood', function(){
-    var validate_command = function(){
-      return false;
+    var helpers = {
+      validate_command: function(){
+        return false;
+      },
+      command_runner: function(command){
+        command.should.be.equal('help');
+      }
     }
-    think.__set__('validate_command', validate_command);
-    think.__set__('command_runner', function(command){
-      command.should.be.equal('help');
-    });
+    think.__set__('helpers', helpers);
     
     // should try to load the help function
     think(['wrong-command']);
   });
 
   it('calls appropriate command', function(){
-    var validate_command = function(){
-      return true;
-    }
     var command = 'hello-world'
-    think.__set__('validate_command', validate_command);
-    think.__set__('command_runner', function(command){
-      command.should.be.equal(command);
-    });
-    
+    var helpers = {
+      validate_command: function(){
+        return true;
+      },
+      command_runner: function(command){
+        command.should.be.equal(command);
+      }
+    }
+    think.__set__('helpers', helpers);
+
     // should try to load the help function
     think([command]);
   });
@@ -46,14 +50,16 @@ describe('think.js', function() {
   it('calls help if no command was passed', function(){
     
     // overwrite runner
-    var command_runner = sinon.spy();
-    think.__set__('command_runner', command_runner);
-    
+    var helpers = {
+      command_runner: sinon.spy()
+    }
+    think.__set__('helpers', helpers);
+
     // should try to load the help function
     think([]);
     
     // should try to load the help function
-    command_runner.calledWithExactly('help');
+    helpers.command_runner.calledWithExactly('help');
   });
 
 });
