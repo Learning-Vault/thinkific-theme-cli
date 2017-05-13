@@ -10,12 +10,4 @@ describe('help command', function() {
   it('should retrieve a module', function() {
     should.exist(help);
   });
-
-  it('should retrieve a module', function() {
-    var spy = sinon.spy();
-    help.__set__('print', spy);
-    should.exist(help);
-    help.run();
-    spy.calledOnce.should.be.true();
-  });
 });

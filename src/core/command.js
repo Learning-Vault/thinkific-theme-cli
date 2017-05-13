@@ -7,7 +7,7 @@ var validate_params = function(params) {
 
   if(!Boolean(params)) throw Error('Invalid Command instantiation parameters');
 
-  var required_params = ['run', 'description'];
+  var required_params = ['run', 'description', 'command_sample'];
   required_params.forEach(function(required_param){
     if( !params.hasOwnProperty(required_param) ) {
       throw Error(required_param + ' is required');

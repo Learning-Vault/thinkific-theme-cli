@@ -14,12 +14,12 @@ var validate_command = function(command) {
   return fs.existsSync(path.resolve(command_path, command + '.js'));
 };
 
-var get_available_commands = function() {
+var get_available_command_files = function() {
   return fs.readdirSync(command_path);
 };
 
 module.exports = {
   validate_command: validate_command,
   command_runner: command_runner,
-  get_available_commands: get_available_commands
+  get_available_command_files: get_available_command_files
 }

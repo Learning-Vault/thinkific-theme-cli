@@ -13,13 +13,14 @@ describe('Command', function() {
   it('throws an exception when a required param is missing', function() {
     should.throws(function() {
       new Command({});
-    }, /command is required/);
+    });
   });
   
   it('instantiation success depends on params', function(test_cb) {
     should.doesNotThrow(function(){
       var c = new Command({
-        command: 'help',
+        command: 'test',
+        command_sample: 'think.js test',
         description: 'print out help a help statement',
         run: function(){
           test_cb();
