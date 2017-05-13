@@ -6,16 +6,41 @@ var sinon = require('sinon');
 var think = rewire('../think');
 
 describe('think.js', function() {
+
+  before(function(before_cb){
+    think.__set__('print', function(){});
+    before_cb();
+  });
+  
   it('can be exported', function() {
     should.exist(think);
   });
 
-  it('understands available commands', function(){
-
+  it('calls help if no command is understood', function(){
+    var validate_command = function(){
+      return false;
+    }
+    think.__set__('validate_command', validate_command);
+    think.__set__('command_runner', function(command){
+      command.should.be.equal('help');
+    });
+    
+    // should try to load the help function
+    think(['wrong-command']);
   });
 
-  it('validates commands according to what\'s available', function(){
+  it('calls appropriate command', function(){
+    var validate_command = function(){
+      return true;
+    }
+    var command = 'hello-world'
+    think.__set__('validate_command', validate_command);
+    think.__set__('command_runner', function(command){
+      command.should.be.equal(command);
+    });
     
+    // should try to load the help function
+    think([command]);
   });
 
   it('calls help if no command was passed', function(){
@@ -31,7 +56,4 @@ describe('think.js', function() {
     command_runner.calledWithExactly('help');
   });
 
-  it('calls appropriate command', function(){
-    
-  });
 });

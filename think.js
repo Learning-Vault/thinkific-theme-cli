@@ -2,17 +2,24 @@
 
 'use strict';
 
- var path = require('path');
-
- var command_path = path.resolve(__dirname, 'src', 'commands')
+var path = require('path');
+var fs = require('fs');
+var command_path = path.resolve(__dirname, 'src', 'commands')
+var print = require('./src/core/print');
+var chalk = require('chalk');
 
 var command_runner = function (command) {
   var module = require(path.resolve(command_path, command));
   module.run();
 }
 
+var validate_command = function(command) {
+  return fs.existsSync(path.resolve(command_path, command + '.js'));
+};
+
 var get_available_commands = function() {
-  
+  var modules = fs.readdirSync(command_path);
+  return ;
 };
 
 var is_command_valid = function() {
@@ -24,16 +31,15 @@ var main = function (args) {
   // run help if no argument was passed
   if( 0 == args.length ) {
     command_runner('help');
-    // console.log(require('./src/commands/help'));
-    // var command = require('./src/commands/help');
-    // command();
     return;
   }
-
-  // get a list of valid commands
-  // validate arguments
-  // if command has been identified, call it,
-  // call help command otherwise
+  var command = args.shift();
+  if( validate_command(command) ) {
+    command_runner(command);
+  } else {
+    print(chalk.red('\nERROR: invalid command'));
+    command_runner('help');
+  }
 };
 
 if (require.main === module) {
