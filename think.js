@@ -17,15 +17,6 @@ var validate_command = function(command) {
   return fs.existsSync(path.resolve(command_path, command + '.js'));
 };
 
-var get_available_commands = function() {
-  var modules = fs.readdirSync(command_path);
-  return ;
-};
-
-var is_command_valid = function() {
-  
-};
-
 var main = function (args) {
 
   // run help if no argument was passed

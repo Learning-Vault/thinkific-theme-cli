@@ -3,22 +3,39 @@
 var Command = require('../core/command');
 var chalk = require('chalk');
 var print = require('../core/print');
+var path = require('path');
+var fs = require('fs');
+var file_name = path.basename(__filename);
 
-var help_output = `
+var output = `
 Usage: ${chalk.bold('think.js <command>')}
 
-  Commands:
-    ${chalk.cyan('"./think.js help"')}\t${chalk.white('prints command instructions')}
-    ${chalk.cyan('"./think.js wizard setup"')}\t${chalk.white('Sets up your thinkific API credentials')}
-    ${chalk.cyan('"./think.js theme download"')}\t${chalk.white('Downloads theme')}
-    ${chalk.cyan('"./think.js theme watch"')}\t${chalk.white('watches for file modifications and syncs with server')}
-`;
+  Commands:`;
+
+var get_available_commands = function() {
+  return fs.readdirSync(__dirname);
+};
+
+
 
 var help = new Command({
-  command: 'help',
   description: 'prints out help a help statement',
   run: function() {
-    print(help_output);
+    // load all modules
+    var files = get_available_commands();
+    files.forEach(function(file) {
+      var mod = ( module == file_name) ? help : require(
+        path.resolve(__dirname, file));
+      var cmd = file.replace('.js', '');
+      var dsc = mod.options.description;
+      output += `
+    ${chalk.cyan('"think.js ' + cmd + '"')}\t${chalk.white(dsc)}`;
+      // console.log(module);
+      // help_output += `    chalk.cyan('"./think.js wizard setup"')}`;
+    }, this);
+    // concat command info to string
+    // print
+    print(output);
   }
 });
 
