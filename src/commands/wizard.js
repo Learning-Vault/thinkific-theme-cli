@@ -27,7 +27,7 @@ var setup = function() {
 
   // add questions to ask users
   var add_question = function(key, question, validation) {
-    if ( Boolean(credentials) ) {
+    if ( Object.keys(credentials).length > 0 ) {
       question += ' [' + credentials[key] + ']';
     }
     question += '\n> ';
@@ -65,6 +65,7 @@ var setup = function() {
     if (err) {
       console.log(chalk.red(err));
     } else {
+      responses['env'] = 'production';
       helpers.set_config_data(responses, function(){
         console.log(chalk.green('\nCredentials saved\n'));
       });
