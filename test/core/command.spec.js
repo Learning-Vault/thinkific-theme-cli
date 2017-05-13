@@ -10,6 +10,7 @@ describe('Command', function() {
       new Command();
     }, /Invalid Command instantiation parameters/);
   });
+
   it('throws an exception when a required param is missing', function() {
     should.throws(function() {
       new Command({});

@@ -17,7 +17,12 @@ var main = function (args) {
   }
   var command = args.shift();
   if( helpers.validate_command(command) ) {
-    helpers.command_runner(command);
+    try {
+      helpers.command_runner(command, args);
+    } catch(e) {
+      print(chalk.red(e.message));
+      helpers.command_runner('help');
+    }
   } else {
     print(chalk.red('\nERROR: invalid command'));
     helpers.command_runner('help');

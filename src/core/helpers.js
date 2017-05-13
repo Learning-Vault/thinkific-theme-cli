@@ -5,9 +5,13 @@ var path = require('path');
 var fs = require('fs');
 var command_path = path.resolve(__dirname, '..', 'commands');
 
-var command_runner = function (command) {
-  var module = require(path.resolve(command_path, command));
-  module.run();
+var command_runner = function (command, args) {
+  var mod = require(path.resolve(command_path, command));
+  var opts = mod.options;
+  if(opts.hasOwnProperty('validate_args')) {
+    opts.validate_args(args);
+  }
+  mod.run();
 }
 
 var validate_command = function(command) {

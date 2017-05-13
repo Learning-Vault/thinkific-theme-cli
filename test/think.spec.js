@@ -34,9 +34,7 @@ describe('think.js', function() {
   it('calls appropriate command', function(){
     var command = 'hello-world'
     var helpers = {
-      validate_command: function(){
-        return true;
-      },
+      validate_command: function(){},
       command_runner: function(command){
         command.should.be.equal(command);
       }
@@ -60,6 +58,19 @@ describe('think.js', function() {
     
     // should try to load the help function
     helpers.command_runner.calledWithExactly('help');
+  });
+
+  it('handles exceptions gracefully when ', function() {
+    var helpers = {
+      validate_command: function(){
+        throw Error('Something went wrong');
+      },
+      command_runner: function(){}
+    }
+    think.__set__('helpers', helpers);
+    should.throws(function(){
+      think(['some-command']);
+    });
   });
 
 });
