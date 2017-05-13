@@ -7,5 +7,4 @@ describe('wizard command', function() {
   it('should retrieve a module', function() {
     should.exist(wizard);
   });
-
 });
