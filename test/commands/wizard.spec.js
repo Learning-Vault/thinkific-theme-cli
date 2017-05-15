@@ -1,17 +1,20 @@
 'use strict'
 
 var should = require('should');
+var readline = require('readline');
 var rewire = require('rewire');
 var wizard = rewire('../../src/commands/wizard');
+var helpers = require('../../src/core/helpers');
 
 describe('wizard command', function() {
+
   it('should retrieve a module', function() {
     should.exist(wizard);
   });
 
   it('shouldn\' throw errors when valid subcommands are passed', function() {
     should.doesNotThrow(function(){
-      wizard.options.validate_args(['setup'])
+      wizard.options.validate_args(['setup']);
     });
   });
 
@@ -26,4 +29,5 @@ describe('wizard command', function() {
       wizard.options.validate_args([]);
     })
   });
+
 });
