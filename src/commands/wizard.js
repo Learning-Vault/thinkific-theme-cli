@@ -88,7 +88,7 @@ var run = function (args) {
 
 module.exports = new Command({
   description: 'Automated way to do various tasks with a wizard',
-  command_sample: 'think.js wizard <command> <subcommand:setup>',
+  command_sample: 'think.js wizard <subcommand:setup>',
   validate_args: validate_args,
   run: run
 });
