@@ -23,6 +23,12 @@ var validate_args = function(args) {
   }
 };
 
+var setup = function() {
+  var credentials = helpers.get_config_data();
+  var read_line = get_input_interface();
+
+  var questions = {};
+
 // add questions to ask users
 var add_question = function(credentials, key, question, validation) {
   if ( Object.keys(credentials).length > 0 ) {
@@ -49,12 +55,6 @@ var add_question = function(credentials, key, question, validation) {
     });
   };
 };
-
-var setup = function() {
-  var credentials = helpers.get_config_data();
-  var read_line = get_input_interface();
-
-  var questions = {};
 
   add_question(credentials, 'api_key', 'Type in API your API key:');
   add_question(credentials, 'course_name', 'Type in course name:');
