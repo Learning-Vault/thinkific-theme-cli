@@ -5,17 +5,18 @@ const helpers = require('../../src/core/helpers');
 
 describe('All commands available', () => {
   let files;
-  before((before_cb) => {
-    files = helpers.get_available_command_files();
-    before_cb();
+  before((beforeCb) => {
+    files = helpers.getAvailableCommandFiles();
+    beforeCb();
   });
 
-  it('should import without validation issues', (test_cb) => {
+  it('should import without validation issues', (testCb) => {
     should.doesNotThrow(() => {
       files.forEach((file) => {
-        require(`../../src/commands/${file}`);
+        require( // eslint-disable-line import/no-dynamic-require, global-require
+          `../../src/commands/${file}`);
       });
-      test_cb();
+      testCb();
     });
   });
 });

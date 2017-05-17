@@ -16,7 +16,7 @@ const help = new Command({
   command_sample: 'think.js help',
   run() {
     // load all modules
-    const files = helpers.get_available_command_files();
+    const files = helpers.getAvailableCommandFiles();
 
     files.forEach((file) => {
       let mod;
@@ -31,7 +31,7 @@ const help = new Command({
       output += `
     ${chalk.cyan(smpl)}${chalk.grey(' | ')}${chalk.white(dsc)}`;
     }, this);
-    print(output);
+    print(`${output}\n\n`);
   },
 });
 

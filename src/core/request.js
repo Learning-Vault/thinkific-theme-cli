@@ -2,11 +2,11 @@
 const request = require('request');
 const helpers = require('./helpers');
 
-const config = helpers.get_config_data();
+const config = helpers.getConfigData();
 
 const get = (url, callback) => {
   const options = {
-    url: helpers.build_url(config.env, url),
+    url: helpers.buildUrl(config.env, url),
     headers: {
       'X-Auth-API-Key': config.api_key,
       'X-Auth-Subdomain': config.course_name,

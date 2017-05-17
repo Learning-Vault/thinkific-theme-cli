@@ -16,8 +16,8 @@ const commandRunner = function (command, args) {
   const mod = require( // eslint-disable-line import/no-dynamic-require, global-require
     path.resolve(commandPath, command));
   const opts = mod.options;
-  if (opts.validate_args) {
-    opts.validate_args(args);
+  if (opts.validateArgs) {
+    opts.validateArgs(args);
   }
   mod.run(args);
 }
@@ -46,7 +46,7 @@ const setConfigData = function (data, callback) {
 const buildUrl = (env, endpoint) => {
   // raise exception if arguments are not passed
   if (typeof env === 'undefined' || typeof endpoint === 'undefined') {
-    throw Error('Missing arguments for build_url function');
+    throw Error('Missing arguments for buildUrl function');
   }
 
   // raise exception the environment is invalid

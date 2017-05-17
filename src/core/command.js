@@ -8,7 +8,7 @@ const validateParams = function (params) {
 
   const requiredParams = ['run', 'description', 'command_sample'];
   requiredParams.forEach((requiredParam) => {
-    if (!params.requiredParam) {
+    if (!params[requiredParam]) {
       throw Error(`${requiredParam} is required`);
     }
   });

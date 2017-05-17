@@ -28,11 +28,11 @@ describe('request', () => {
         env: 'test',
       });
 
-      helpers.build_url = () => `http://school.lvh.me:3000/api/public/v1/${url}`
+      helpers.buildUrl = () => `http://school.lvh.me:3000/api/public/v1/${url}`
 
       request.__set__('helpers', helpers);
 
-      const server = nock('http://school.lvh.me:3000', headers)
+      nock('http://school.lvh.me:3000', headers)
         .get(`/api/public/v1/${url}`)
         .reply(200, data);
 

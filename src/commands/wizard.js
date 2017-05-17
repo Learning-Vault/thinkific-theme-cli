@@ -25,16 +25,17 @@ const validateArgs = function (args) {
 };
 
 const setup = function () {
-  const credentials = helpers.get_config_data();
+  const credentials = helpers.getConfigData();
   const readLine = getInputInterface();
 
   const questions = {};
 
 // add questions to ask users
-  const addQuestion = function (key, question, validation) {
-    let _question = question;
+  const addQuestion = function (key, baseQuestion, validation) {
+    let _question = '';
+    _question += baseQuestion;
     if (Object.keys(credentials).length > 0) {
-      _question += ` [${credentials[key]}]`;
+      _question += ` [current: ${credentials[key]}]`;
     }
     _question += '\n> ';
     questions[key] = function (callback) {
@@ -74,7 +75,7 @@ const setup = function () {
       print(chalk.red(err));
     } else {
       _responses.env = 'production';
-      helpers.set_config_data(responses, () => {
+      helpers.setConfigData(responses, () => {
         print(chalk.green('\nCredentials saved\n'));
       });
     }

@@ -1,14 +1,13 @@
-
-
 const should = require('should');
 const rewire = require('rewire');
 const sinon = require('sinon');
+
 const think = rewire('../think');
 
 describe('think.js', () => {
-  before((before_cb) => {
+  before((beforeCb) => {
     think.__set__('print', () => {});
-    before_cb();
+    beforeCb();
   });
 
   it('can be exported', () => {
@@ -17,10 +16,10 @@ describe('think.js', () => {
 
   it('calls help if no command is understood', () => {
     const helpers = {
-      validate_command() {
+      validateCommand() {
         return false;
       },
-      command_runner(command) {
+      commandRunner(command) {
         command.should.be.equal('help');
       },
     }
@@ -31,11 +30,11 @@ describe('think.js', () => {
   });
 
   it('calls appropriate command', () => {
-    const command = 'hello-world'
+    const command = 'hello-world';
     const helpers = {
-      validate_command() {},
-      command_runner(command) {
-        command.should.be.equal(command);
+      validateCommand() {},
+      commandRunner(cmd) {
+        cmd.should.be.equal(command);
       },
     }
     think.__set__('helpers', helpers);
@@ -47,7 +46,7 @@ describe('think.js', () => {
   it('calls help if no command was passed', () => {
     // overwrite runner
     const helpers = {
-      command_runner: sinon.spy(),
+      commandRunner: sinon.spy(),
     }
     think.__set__('helpers', helpers);
 
@@ -55,15 +54,15 @@ describe('think.js', () => {
     think([]);
 
     // should try to load the help function
-    helpers.command_runner.calledWithExactly('help');
+    helpers.commandRunner.calledWithExactly('help');
   });
 
-  it('handles exceptions gracefully when ', () => {
+  it('handles exceptions gracefully', () => {
     const helpers = {
-      validate_command() {
+      validateCommand() {
         throw Error('Something went wrong');
       },
-      command_runner() {},
+      commandRunner() {},
     }
     think.__set__('helpers', helpers);
     should.throws(() => {
