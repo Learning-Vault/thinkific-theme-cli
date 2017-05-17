@@ -4,7 +4,14 @@
 var path = require('path');
 var fs = require('fs');
 var command_path = path.resolve(__dirname, '..', 'commands');
-
+const DOMAINS = {
+  test: 'localhost:3000',
+  local: 'school.lvh.me:3000',
+  staging: 'thinkific-staging.com',
+  production: 'thinkific.com'
+}
+const API_PREFIX = 'api/public';
+const VERSION = 'v1';
 var config_file = '.thinkific_config';
 
 var command_runner = function (command, args) {
@@ -38,6 +45,21 @@ var set_config_data = function(data, callback) {
   fs.writeFile(get_config_path(), json_data, callback);
 };
 
+var build_url = (env, endpoint) => {
+
+  // raise exception if arguments are not passed
+  if(typeof env === 'undefined' || typeof endpoint === 'undefined') {
+    throw Error('Missing arguments for build_url function');
+  }
+
+  // raise exception the environment is invalid
+  if(-1 == Object.keys(DOMAINS).indexOf(env)) {
+    throw Error('Invalid environment');
+  }
+
+  return ((-1 != ['local', 'test'].indexOf(env)) ? 'http': 'https') + '://' +
+    DOMAINS[env] + '/' + API_PREFIX + '/' + VERSION + '/' + endpoint;
+}
 
 var get_available_command_files = function() {
   return fs.readdirSync(command_path);
@@ -48,5 +70,6 @@ module.exports = {
   command_runner: command_runner,
   get_available_command_files: get_available_command_files,
   get_config_data: get_config_data,
-  set_config_data: set_config_data
+  set_config_data: set_config_data,
+  build_url: build_url
 }

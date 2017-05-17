@@ -1,15 +1,9 @@
 'use strict';
 
 var Command = require('../core/command');
-var helpers = require('../core/helpers')
+var theme_service = require('../core/services/themes');
+var print = require('../core/print');
 var chalk = require('chalk');
-
-var get_input_interface = function() {
-  return readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
-}
 
 var validate_args = function(args) {
   if ( 0 == args.length ) {
@@ -21,6 +15,21 @@ var validate_args = function(args) {
 };
 
 var list = () => {
+  theme_service.get(function(err, body){
+    if (err) {
+      print(chalk.red('Something went bananas: ' + err.message));
+    }
+    var content = `
+${chalk.bold('Themes found in your account:')}
+
+`;
+    content += chalk.grey(`\tID:\tName\n`);
+    content += `\t---\t----\n`;
+    body.forEach(function(theme){
+      content += `\t${theme.id}\t${theme.name}`
+    });
+    print(content + '\n');
+  });
 }
 
 var run = function (args) {

@@ -23,6 +23,7 @@
   "devDependencies": {
     "istanbul": "^0.4.5",
     "mocha": "^3.3.0",
+    "nock": "^9.0.13",
     "nodemon": "^1.11.0",
     "rewire": "^2.5.2",
     "should": "^11.2.1",
