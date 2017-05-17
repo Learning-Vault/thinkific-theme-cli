@@ -24,12 +24,13 @@ describe('request', function() {
     it('knows how to handle GET requests', function(callback) {
       
       var url = 'hello/world';
-      var data = data;
-      var headers = {reqheaders: {
+      var data = {id: 1, name: 'hello world'};
+      var headers = {headers: {
           'x-auth-api-key': () => {return true},
           'X-auth-subdomain': () => {return true}
         }
       };
+      
       helpers.get_config_data = () => {
         return {
           'api_key': '1e8af83bf61d68de8d08a1f4dee08cdc',
@@ -39,11 +40,15 @@ describe('request', function() {
         };
       };
 
+      helpers.build_url = () => {
+        return 'http://school.lvh.me:3000/api/public/v1/' + url;
+      }
+
       request.__set__('helpers', helpers);
       
       var server = nock('http://school.lvh.me:3000', headers)
         .get('/api/public/v1/' + url)
-        .reply(200, [{id: 1, name: 'hello world'}]);
+        .reply(200, data);
       
       request.get('hello/world', (err, data) => {
         data.should.deepEqual(data);
