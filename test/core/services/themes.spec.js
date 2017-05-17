@@ -1,20 +1,18 @@
-'use strict'
 
-var should = require('should');
-var service = require('../../src/core/services/themes');
-var helpers = require('../../src/core/helpers');
 
-describe('themes Service', function() {
+const should = require('should');
+const service = require('../../src/core/services/themes');
+const helpers = require('../../src/core/helpers');
 
-  it('should retrieve a module', function() {
+describe('themes Service', () => {
+  it('should retrieve a module', () => {
     should.exist(service);
   });
 
-  it('should handle custom site theme retrievals', function() {
+  it('should handle custom site theme retrievals', () => {
     console.log('done', body);
-    service.get(function(body) {
+    service.get((body) => {
       console.log('done', body);
     });
   });
-
 });

@@ -1,25 +1,23 @@
 #!/usr/bin/env node
 
-'use strict';
 
-var path = require('path');
-var fs = require('fs');
-var print = require('./src/core/print');
-var chalk = require('chalk');
-var helpers = require('./src/core/helpers');
+const path = require('path');
+const fs = require('fs');
+const print = require('./src/core/print');
+const chalk = require('chalk');
+const helpers = require('./src/core/helpers');
 
-var main = function (args) {
-
+const main = function (args) {
   // run help if no argument was passed
-  if( 0 == args.length ) {
+  if (args.length == 0) {
     helpers.command_runner('help');
     return;
   }
-  var command = args.shift();
-  if( helpers.validate_command(command) ) {
+  const command = args.shift();
+  if (helpers.validate_command(command)) {
     try {
       helpers.command_runner(command, args);
-    } catch(e) {
+    } catch (e) {
       print(chalk.red(e.message));
       helpers.command_runner('help');
     }
@@ -30,7 +28,7 @@ var main = function (args) {
 };
 
 if (require.main === module) {
-  var args = process.argv.splice(2);
+  const args = process.argv.splice(2);
   main(args);
 }
 

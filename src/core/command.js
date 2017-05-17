@@ -1,26 +1,23 @@
-'use strict';
+
 
 /**
  * Validate options passed to class
  */
-var validate_params = function(params) {
+const validateParams = function (params) {
+  if (!params) throw Error('Invalid Command instantiation parameters');
 
-  if(!Boolean(params)) throw Error('Invalid Command instantiation parameters');
-
-  var required_params = ['run', 'description', 'command_sample'];
-  required_params.forEach(function(required_param){
-    if( !params.hasOwnProperty(required_param) ) {
-      throw Error(required_param + ' is required');
+  const requiredParams = ['run', 'description', 'command_sample'];
+  requiredParams.forEach((requiredParam) => {
+    if (!params.requiredParam) {
+      throw Error(`${requiredParam} is required`);
     }
   });
-
 }
 
-var Command = function(params) {
-  
-  validate_params(params);
+const Command = function (params) {
+  validateParams(params);
   this.options = params;
-  
+
   // setup function that will execute function
   this.run = this.options.run;
 }

@@ -1,37 +1,38 @@
-'use strict';
+const Command = require('../core/command');
+const chalk = require('chalk');
+const print = require('../core/print');
+const path = require('path');
 
-var Command = require('../core/command');
-var chalk = require('chalk');
-var print = require('../core/print');
-var path = require('path');
-var fs = require('fs');
-var file_name = path.basename(__filename);
-var helpers = require('../core/helpers');
+const fileName = path.basename(__filename);
+const helpers = require('../core/helpers');
 
-var output = `
+let output = `
 Usage: ${chalk.bold('think.js <command> <subcommand>')}
 
   Commands:`;
 
-var help = new Command({
+const help = new Command({
   description: 'prints out help a help statement',
   command_sample: 'think.js help',
-  run: function() {
-
+  run() {
     // load all modules
-    var files = helpers.get_available_command_files();
+    const files = helpers.get_available_command_files();
 
-    files.forEach(function(file) {
-      var mod = ( module == file_name) ? help : require(
-        path.resolve(__dirname, file));
-      var cmd = file.replace('.js', '');
-      var dsc = mod.options.description;
-      var smpl = mod.options.command_sample;
+    files.forEach((file) => {
+      let mod;
+      if (module === fileName) {
+        mod = help;
+      } else {
+        mod = require( // eslint-disable-line import/no-dynamic-require, global-require
+          path.resolve(__dirname, file));
+      }
+      const dsc = mod.options.description;
+      const smpl = mod.options.command_sample;
       output += `
     ${chalk.cyan(smpl)}${chalk.grey(' | ')}${chalk.white(dsc)}`;
     }, this);
     print(output);
-  }
+  },
 });
 
 module.exports = help;

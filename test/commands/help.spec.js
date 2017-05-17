@@ -1,13 +1,12 @@
-'use strict'
 
-var should = require('should');
-var sinon = require('sinon');
-var rewire = require('rewire');
-var help = rewire('../../src/commands/help');
 
-describe('help command', function() {
+const should = require('should');
+const sinon = require('sinon');
+const rewire = require('rewire');
+const help = rewire('../../src/commands/help');
 
-  it('should retrieve a module', function() {
+describe('help command', () => {
+  it('should retrieve a module', () => {
     should.exist(help);
   });
 });

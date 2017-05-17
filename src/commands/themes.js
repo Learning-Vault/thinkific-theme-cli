@@ -1,48 +1,50 @@
-'use strict';
 
-var Command = require('../core/command');
-var theme_service = require('../core/services/themes');
-var print = require('../core/print');
-var chalk = require('chalk');
 
-var validate_args = function(args) {
-  if ( 0 == args.length ) {
+const Command = require('../core/command');
+const themeService = require('../core/services/themes');
+const print = require('../core/print');
+const chalk = require('chalk');
+
+const validateArgs = function (args) {
+  if (args.length === 0) {
     throw Error('subcommand definition is required');
   }
-  if (-1 == ['list'].indexOf(args[0])) {
-    throw Error('Invalid subcommands: ' + args[0]);
+  if (['list'].indexOf(args[0]) === -1) {
+    throw Error(`Invalid subcommands: ${args[0]}`);
   }
 };
 
-var list = () => {
-  theme_service.get(function(err, body){
+const list = () => {
+  themeService.get((err, body) => {
     if (err) {
-      print(chalk.red('Something went bananas: ' + err.message));
+      print(chalk.red(`Something went bananas: ${err.message}`));
     }
-    var content = `
+    let content = `
 ${chalk.bold('Themes found in your account:')}
 
 `;
-    content += chalk.grey(`\tID:\tName\n`);
-    content += `\t---\t----\n`;
-    body.forEach(function(theme){
+    content += chalk.grey('\tID:\tName\n');
+    content += '\t---\t----\n';
+    body.forEach((theme) => {
       content += `\t${theme.id}\t${theme.name}`
     });
-    print(content + '\n');
+    print(`${content}\n`);
   });
 }
 
-var run = function (args) {
-  switch(args[0]){
+const run = function (args) {
+  switch (args[0]) {
     case 'list':
       list();
       break;
+    default:
+      throw Error('Unrecognizeable subcommand');
   }
 };
 
 module.exports = new Command({
   description: 'Downloads and syncs views with thinkific',
   command_sample: 'think.js themes <subcommand:list>',
-  validate_args: validate_args,
-  run: run
+  validateArgs,
+  run,
 });
