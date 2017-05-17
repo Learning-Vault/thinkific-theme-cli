@@ -12,7 +12,7 @@ Usage: ${chalk.bold('think.js <command> <subcommand>')}
   Commands:`;
 
 const help = new Command({
-  description: 'prints out help a help statement',
+  description: 'prints out a help statement',
   command_sample: 'think.js help',
   run() {
     // load all modules
