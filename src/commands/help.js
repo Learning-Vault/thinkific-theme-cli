@@ -23,10 +23,9 @@ Usage: ${chalk.bold('think.js <command> <subcommand>')}
  *
  * @param {string} file name
  */
-let loadModule = (file) => { // eslint-disable-line prefer-const
-  return require( // eslint-disable-line import/no-dynamic-require, global-require
-    path.resolve(__dirname, file));
-}
+let loadModule = file =>  // eslint-disable-line prefer-const
+   require( // eslint-disable-line import/no-dynamic-require, global-require
+    path.resolve(__dirname, file))
 
 const help = new Command({
   description: 'prints out a help statement',

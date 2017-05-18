@@ -32,9 +32,7 @@ ${chalk.bold('Themes found in your account:')}
   });
 }
 
-const download = () => {
-  console.log('called');
-}
+const download = () => {}
 
 const run = function (args) {
   switch (args[0]) {

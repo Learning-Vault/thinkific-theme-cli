@@ -6,19 +6,20 @@
   "scripts": {
     "start": "think.js",
     "test": "NODE_ENV=test  ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors  test/**/*.spec.js",
+    "watch-lint": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/eslint src/**/*.js",
     "watch-test": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/_mocha --colors  test/**/*.spec.js",
     "watch-ctest": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors  test/**/*.spec.js",
-    "watch-lint": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/eslint src/**/*.js",
+    "watch-all": "concurrently --kill-others \"npm run watch-ctest\" \"npm run watch-lint\"",
     "check-coverage": "./node_modules/.bin/istanbul check-coverage --statements 71.43 --functions 0 --branches 50 --lines 71.43  test/**/*.spec.js",
     "check-lint": "./node_modules/.bin/eslint src/**/*.js",
-    "fix-lint": "./node_modules/.bin/eslint src/**/*.js --fix "
+    "fix-lint": "./node_modules/.bin/eslint src/**/*.js --fix"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thinkific/think-npm.git"
   },
   "engine": {
-    "node" : ">=7.9.0"
+    "node": ">=7.9.0"
   },
   "author": "Jesus Rodriguez<jesus@thinkific.com>",
   "private": true,
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/thinkific/think-npm#readme",
   "devDependencies": {
+    "concurrently": "^3.4.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.2.0",
