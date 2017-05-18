@@ -1,5 +1,3 @@
-'use strict';
-
-module.exports = function(content) {
-  console.log(content);
+module.exports = function (content) {
+  process.stdout.write(content);
 };

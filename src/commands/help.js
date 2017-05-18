@@ -1,37 +1,50 @@
-'use strict';
+const Command = require('../core/command');
+const chalk = require('chalk');
+const path = require('path');
 
-var Command = require('../core/command');
-var chalk = require('chalk');
-var print = require('../core/print');
-var path = require('path');
-var fs = require('fs');
-var file_name = path.basename(__filename);
-var helpers = require('../core/helpers');
+const fileName = path.basename(__filename);
+/**
+ * These are set to 'let' so that i can write a test that will allow me to
+ * overwrite functionality within these modules.
+ */
+let helpers = require('../core/helpers'); // eslint-disable-line prefer-const
+let print = require('../core/print'); // eslint-disable-line prefer-const
 
-var output = `
+let output = `
 Usage: ${chalk.bold('think.js <command> <subcommand>')}
 
   Commands:`;
 
-var help = new Command({
-  description: 'prints out help a help statement',
-  command_sample: 'think.js help',
-  run: function() {
+/**
+ * Loads a module dynamically
+ *
+ * Note: is set to 'let' because i don't want to actually require
+ * a module on my test.
+ *
+ * @param {string} file name
+ */
+let loadModule = (file) => { // eslint-disable-line prefer-const
+  require( // eslint-disable-line import/no-dynamic-require, global-require
+    path.resolve(__dirname, file));
+}
 
+const help = new Command({
+  description: 'prints out a help statement',
+  commandSample: 'think.js help',
+  run() {
     // load all modules
-    var files = helpers.get_available_command_files();
+    const files = helpers.getAvailableCommandFiles();
 
-    files.forEach(function(file) {
-      var mod = ( module == file_name) ? help : require(
-        path.resolve(__dirname, file));
-      var cmd = file.replace('.js', '');
-      var dsc = mod.options.description;
-      var smpl = mod.options.command_sample;
+    files.forEach((file) => {
+      const mod = (file === fileName) ? help : loadModule(file);
+      const dsc = mod.options.description;
+      const smpl = mod.options.commandSample;
+
       output += `
     ${chalk.cyan(smpl)}${chalk.grey(' | ')}${chalk.white(dsc)}`;
     }, this);
-    print(output);
-  }
+    print(`${output}\n\n`);
+  },
 });
 
 module.exports = help;
