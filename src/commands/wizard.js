@@ -1,5 +1,3 @@
-
-
 const Command = require('../core/command');
 const helpers = require('../core/helpers')
 const print = require('../core/print');

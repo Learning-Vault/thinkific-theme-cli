@@ -47,10 +47,6 @@ describe('themes command', () => {
 
   it('should be fail gracefully when hitting the server goes wrong', () => {
     const print = sinon.spy(() => {});
-    const data = [{
-      id: 1,
-      name: 'hello world',
-    }];
     const themeService = {
       get: sinon.spy((callback) => {
         callback('Something went wrong');

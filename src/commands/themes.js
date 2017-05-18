@@ -1,5 +1,3 @@
-
-
 const Command = require('../core/command');
 const chalk = require('chalk');
 // These are let so that i can overwrite theme in my tests
