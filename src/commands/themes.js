@@ -32,10 +32,17 @@ ${chalk.bold('Themes found in your account:')}
   });
 }
 
+const download = () => {
+  console.log('called');
+}
+
 const run = function (args) {
   switch (args[0]) {
     case 'list':
       list();
+      break;
+    case 'download':
+      download(args[1]);
       break;
     default:
       throw Error('Unrecognizeable subcommand');
@@ -44,7 +51,7 @@ const run = function (args) {
 
 module.exports = new Command({
   description: 'Downloads and syncs views with thinkific',
-  commandSample: 'think.js themes <subcommand:list>',
+  commandSample: 'think.js themes <subcommand:list|download> <theme_id>',
   validateArgs,
   run,
 });

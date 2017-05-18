@@ -1,0 +1,14 @@
+// const request = require('../request');
+
+// const BASE = 'custom_site_theme_generator';
+
+const generate = (callback) => {
+  // request.get(BASE, (err, data) => {
+  //   callback(err, data.custom_site_themes);
+  // });
+  callback();
+}
+
+module.exports = {
+  generate,
+}

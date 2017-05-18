@@ -1,4 +1,5 @@
-const request = require('../request');
+// we want to unit the functions in this module
+let request = require('../request'); // eslint-disable-line prefer-const
 
 const BASE = 'custom_site_themes';
 
@@ -8,6 +9,12 @@ const get = (callback) => {
   });
 }
 
+/**
+ * Generates and downloads
+ */
+const download = () => {};
+
 module.exports = {
   get,
+  download,
 }
