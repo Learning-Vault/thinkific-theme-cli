@@ -44,7 +44,7 @@ const run = function (args) {
 
 module.exports = new Command({
   description: 'Downloads and syncs views with thinkific',
-  command_sample: 'think.js themes <subcommand:list>',
+  commandSample: 'think.js themes <subcommand:list>',
   validateArgs,
   run,
 });

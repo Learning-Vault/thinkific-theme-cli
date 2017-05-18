@@ -6,7 +6,7 @@
 const validateParams = function (params) {
   if (!params) throw Error('Invalid Command instantiation parameters');
 
-  const requiredParams = ['run', 'description', 'command_sample'];
+  const requiredParams = ['run', 'description', 'commandSample'];
   requiredParams.forEach((requiredParam) => {
     if (!params[requiredParam]) {
       throw Error(`${requiredParam} is required`);
