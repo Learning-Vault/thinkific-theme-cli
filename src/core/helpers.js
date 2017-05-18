@@ -30,6 +30,14 @@ const getConfigPath = function () {
   return path.resolve(process.env.HOME, configFile);
 }
 
+/**
+ * We're going to make the assumption that if the credentials exist,
+ * then they are valid.
+ */
+const credentialsCreated = function () {
+  return fs.existsSync(getConfigPath());
+};
+
 const getConfigData = function () {
   // load previous credentials (if applicable)
   try {
@@ -69,4 +77,5 @@ module.exports = {
   getConfigData,
   setConfigData,
   buildUrl,
+  credentialsCreated,
 }
