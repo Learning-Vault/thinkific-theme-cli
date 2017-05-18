@@ -1,6 +1,6 @@
 const Command = require('../core/command');
 const chalk = require('chalk');
-// These are let so that i can overwrite theme in my tests
+// These are let so that I can overwrite theme in my tests
 let themeService = require('../core/services/themes'); // eslint-disable-line prefer-const
 let print = require('../core/print'); // eslint-disable-line prefer-const
 
@@ -26,9 +26,9 @@ ${chalk.bold('Themes found in your account:')}
     content += chalk.grey('\tID:\tName\n');
     content += '\t---\t----\n';
     body.forEach((theme) => {
-      content += `\t${theme.id}\t${theme.name}`
+      content += `\t${theme.id}\t${theme.name}`;
     });
-    print(`${content}\n`);
+    print(`${content}\n\n`);
   });
 }
 
