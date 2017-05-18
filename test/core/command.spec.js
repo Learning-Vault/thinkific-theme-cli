@@ -16,14 +16,14 @@ describe('Command', () => {
     });
   });
 
-  it('instantiation success depends on params', (test_cb) => {
+  it('instantiation success depends on params', (testCb) => {
     should.doesNotThrow(() => {
       const c = new Command({
         command: 'test',
-        command_sample: 'think.js test',
+        commandSample: 'think.js test',
         description: 'print out help a help statement',
         run() {
-          test_cb();
+          testCb();
         },
       });
 
