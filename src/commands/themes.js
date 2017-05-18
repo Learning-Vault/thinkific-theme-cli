@@ -1,9 +1,10 @@
 
 
 const Command = require('../core/command');
-const themeService = require('../core/services/themes');
-const print = require('../core/print');
 const chalk = require('chalk');
+// These are let so that i can overwrite theme in my tests
+let themeService = require('../core/services/themes'); // eslint-disable-line prefer-const
+let print = require('../core/print'); // eslint-disable-line prefer-const
 
 const validateArgs = function (args) {
   if (args.length === 0) {
@@ -18,6 +19,7 @@ const list = () => {
   themeService.get((err, body) => {
     if (err) {
       print(chalk.red(`Something went bananas: ${err.message}`));
+      return;
     }
     let content = `
 ${chalk.bold('Themes found in your account:')}
