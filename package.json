@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/thinkific/think-npm.git"
   },
+  "engine": {
+    "node" : ">=7.9.0"
+  },
   "author": "Jesus Rodriguez<jesus@thinkific.com>",
   "private": true,
   "bugs": {
