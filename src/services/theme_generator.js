@@ -1,6 +1,6 @@
 // we want to unit the functions in this module
 let request = require('../base/request'); // eslint-disable-line prefer-const
-let helpers = require('../helpers'); // eslint-disable-line prefer-const
+let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 let fs = require('fs'); // eslint-disable-line prefer-const
 const async = require('async');
 const http = require('http');
@@ -10,7 +10,7 @@ const chalk = require('chalk');
 
 const BASE = 'custom_site_theme_generator';
 const interval = 100;
-const config = helpers.getConfigData();
+const config = configHelpers.getConfigData();
 
 /**
  * Generates and downloads a zipped theme file
@@ -79,7 +79,7 @@ const download = (themeId) => {
     if (!config.themes[generationData.theme_id]) {
       config.themes[generationData.theme_id] = generationData.theme_name;
     }
-    helpers.setConfigData(config, callback);
+    configHelpers.setConfigData(config, callback);
   }], () => {
     print(`\nYour theme can be found here: ${config.path}/${generationData.theme_name} !!!!\n\n`);
   });

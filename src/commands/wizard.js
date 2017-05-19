@@ -1,5 +1,5 @@
 const Command = require('../base/command');
-const helpers = require('../helpers')
+const configHelpers = require('../helpers/config');
 const print = require('../print');
 const chalk = require('chalk');
 const readline = require('readline');
@@ -23,7 +23,7 @@ const validateArgs = function (args) {
 };
 
 const setup = function () {
-  const credentials = helpers.getConfigData();
+  const credentials = configHelpers.getConfigData();
   const readLine = getInputInterface();
 
   const questions = {};
@@ -74,7 +74,7 @@ const setup = function () {
     } else {
       _responses.env = 'production';
       _responses.themes = credentials.themes || {};
-      helpers.setConfigData(responses, () => {
+      configHelpers.setConfigData(responses, () => {
         print(chalk.green('\nCredentials saved\n'));
       });
     }

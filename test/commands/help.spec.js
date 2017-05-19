@@ -11,10 +11,10 @@ describe('help command', () => {
 
   it('should call the print statement', () => {
     const print = sinon.spy();
-    const helpers = {
+    const commandHelpers = {
       getAvailableCommandFiles: () => ['help.js'],
     }
-    help.__set__('helpers', helpers);
+    help.__set__('commandHelpers', commandHelpers);
     help.__set__('print', print);
     help.run();
     print.calledOnce.should.be.true();
@@ -28,10 +28,10 @@ describe('help command', () => {
         commandSample: 'hello',
       },
     }));
-    const helpers = {
+    const commandHelpers = {
       getAvailableCommandFiles: () => ['other-command.js'],
     }
-    help.__set__('helpers', helpers);
+    help.__set__('commandHelpers', commandHelpers);
     help.__set__('print', print);
     help.__set__('loadModule', loadModule);
     help.run();

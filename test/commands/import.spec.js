@@ -1,12 +1,12 @@
 
 
 const should = require('should');
-const helpers = require('../../src/helpers');
+const commandHelpers = require('../../src/helpers/command');
 
 describe('All commands available', () => {
   let files;
   before((beforeCb) => {
-    files = helpers.getAvailableCommandFiles();
+    files = commandHelpers.getAvailableCommandFiles();
     beforeCb();
   });
 

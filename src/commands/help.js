@@ -7,7 +7,7 @@ const fileName = path.basename(__filename);
  * These are set to 'let' so that i can write a test that will allow me to
  * overwrite functionality within these modules.
  */
-let helpers = require('../helpers'); // eslint-disable-line prefer-const
+let commandHelpers = require('../helpers/command'); // eslint-disable-line prefer-const
 let print = require('../print'); // eslint-disable-line prefer-const
 
 let output = `
@@ -32,7 +32,7 @@ const help = new Command({
   commandSample: 'think.js help',
   run() {
     // load all modules
-    const files = helpers.getAvailableCommandFiles();
+    const files = commandHelpers.getAvailableCommandFiles();
 
     files.forEach((file) => {
       const mod = (file === fileName) ? help : loadModule(file);
