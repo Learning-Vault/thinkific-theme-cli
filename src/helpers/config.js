@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const configFile = '.thinkific_config';
 
-const getConfigPath = function () {
+let getConfigPath = function () { // eslint-disable-line prefer-const
   return path.resolve(process.env.HOME, configFile);
 }
 
