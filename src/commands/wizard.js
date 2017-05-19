@@ -73,6 +73,7 @@ const setup = function () {
       print(chalk.red(err));
     } else {
       _responses.env = 'production';
+      _responses.themes = credentials.themes || [];
       helpers.setConfigData(responses, () => {
         print(chalk.green('\nCredentials saved\n'));
       });

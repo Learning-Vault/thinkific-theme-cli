@@ -25,6 +25,7 @@ const config = helpers.getConfigData();
  *  . once theme has been generated, download file into theme workspace
  */
 const download = (themeId) => {
+  let generationData;
   if (Object.keys(config).length === 0) {
     throw Error('Credentials missing');
   }
@@ -37,9 +38,10 @@ const download = (themeId) => {
     print('Requesting generation:\n');
     request.post(BASE, { theme_id: themeId }, (err, data) => {
       print(`${chalk.green('done!')}\n`);
-      callback(null, data);
+      generationData = data;
+      callback(null);
     });
-  }, (generationData, callback) => {
+  }, (callback) => {
     print(`${chalk.green('generating! ')}`);
     let status;
     const test = () => status !== 'complete';
@@ -57,7 +59,7 @@ const download = (themeId) => {
       callback(null, generationData.url);
     });
   }, (url, callback) => {
-    const tmp = '/tmp/cli.zip';
+    const tmp = `/tmp/${generationData.theme_name}.zip`;
     const file = fs.createWriteStream(tmp);
     print(`${chalk.green('Downloading!')}\n`);
     http.get(url.replace('https', 'http'), (response) => {
@@ -68,13 +70,19 @@ const download = (themeId) => {
       });
     });
   }, (tmp, callback) => {
-    const dir = `${config.path}/cli`;
+    const dir = `${config.path}/${generationData.theme_name}`;
     print(`${chalk.green('extracting!')}\n`);
     extract(tmp, { dir }, (err) => {
       callback(err);
     })
+  }, (callback) => {
+    print(`${chalk.green('Updating config!')}\n`);
+    if (!config.themes[generationData.theme_id]) {
+      config.themes[generationData.theme_id] = generationData.theme_name;
+    }
+    helpers.setConfigData(config, callback);
   }], () => {
-    print('Done!\n\n');
+    print(`\nYour theme can be found here: ${config.path}/${generationData.theme_name} !!!!\n\n`);
   });
 };
 
