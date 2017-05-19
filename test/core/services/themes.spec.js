@@ -3,7 +3,7 @@ const rewire = require('rewire');
 
 const service = rewire('../../../src/core/services/themes.js');
 
-describe('themes Service', () => {
+describe('themes service', () => {
   it('should retrieve a module', () => {
     should.exist(service);
   });
@@ -23,15 +23,4 @@ describe('themes Service', () => {
     });
   });
 
-  describe('and a download function', () => {
-    it('that throw an error if credentials are missing', () => {
-      const helpers = {
-        credentialsCreated: () => false,
-      };
-      service.__set__('helpers', helpers);
-      should.throws(() => {
-        service.download();
-      });
-    });
-  });
 });

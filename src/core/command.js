@@ -1,5 +1,3 @@
-
-
 /**
  * Validate options passed to class
  */
