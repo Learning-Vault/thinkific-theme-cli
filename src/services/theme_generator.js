@@ -1,10 +1,9 @@
 // we want to unit the functions in this module
-let request = require('../request'); // eslint-disable-line prefer-const
+let request = require('../base/request'); // eslint-disable-line prefer-const
 let helpers = require('../helpers'); // eslint-disable-line prefer-const
 let fs = require('fs'); // eslint-disable-line prefer-const
 const async = require('async');
 const http = require('http');
-const path = require('path');
 const extract = require('extract-zip');
 const print = require('../print');
 const chalk = require('chalk');

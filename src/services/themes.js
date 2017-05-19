@@ -1,5 +1,5 @@
 // we want to unit the functions in this module
-let request = require('../request'); // eslint-disable-line prefer-const
+let request = require('../base/request'); // eslint-disable-line prefer-const
 
 const BASE = 'custom_site_themes';
 

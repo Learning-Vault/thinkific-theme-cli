@@ -2,9 +2,9 @@
 const should = require('should');
 const nock = require('nock');
 const rewire = require('rewire');
-const helpers = require('../../src/core/helpers');
+const helpers = require('../../src/helpers');
 
-const request = rewire('../../src/core/request');
+const request = rewire('../../src/base/request');
 
 describe('request', () => {
   describe('has a `get` function', () => {

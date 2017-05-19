@@ -1,5 +1,5 @@
 const should = require('should');
-const helpers = require('../../src/core/helpers');
+const helpers = require('../src/helpers');
 
 describe('Helpers', () => {
   describe('has a buildUrl function', () => {

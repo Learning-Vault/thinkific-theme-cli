@@ -1,14 +1,10 @@
 const should = require('should');
 const rewire = require('rewire');
 
-const service = rewire('../../../src/core/services/theme_generator');
+const service = rewire('../../src/services/theme_generator');
 
 describe('themes generator service', () => {
-  it('should retrieve a module', () => {
-    should.exist(service);
-  });
-
-  describe('and a download function', () => {
+  describe('has a download function', () => {
     it('that throws an error if credentials are missing', () => {
       const helpers = {
         getConfigData: () => {},

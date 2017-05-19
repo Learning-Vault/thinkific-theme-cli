@@ -1,4 +1,4 @@
-const Command = require('../core/command');
+const Command = require('../base/command');
 const chalk = require('chalk');
 const path = require('path');
 
@@ -7,8 +7,8 @@ const fileName = path.basename(__filename);
  * These are set to 'let' so that i can write a test that will allow me to
  * overwrite functionality within these modules.
  */
-let helpers = require('../core/helpers'); // eslint-disable-line prefer-const
-let print = require('../core/print'); // eslint-disable-line prefer-const
+let helpers = require('../helpers'); // eslint-disable-line prefer-const
+let print = require('../print'); // eslint-disable-line prefer-const
 
 let output = `
 Usage: ${chalk.bold('think.js <command> <subcommand>')}

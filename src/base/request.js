@@ -1,6 +1,6 @@
 // for test purposes, we need to overwrite the request module.
 const request = require('request');
-let helpers = require('./helpers'); // eslint-disable-line prefer-const
+let helpers = require('../helpers'); // eslint-disable-line prefer-const
 
 const config = helpers.getConfigData();
 const headers = {

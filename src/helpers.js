@@ -1,7 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 
-const commandPath = path.resolve(__dirname, '..', 'commands');
+const commandPath = path.resolve(__dirname, 'commands');
+console.log(commandPath);
 const DOMAINS = {
   test: 'localhost:3000',
   local: 'school.lvh.me:3000',

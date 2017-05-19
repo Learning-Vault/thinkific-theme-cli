@@ -1,7 +1,7 @@
 const should = require('should');
 const rewire = require('rewire');
 
-const service = rewire('../../../src/core/services/themes.js');
+const service = rewire('../../src/services/themes.js');
 
 describe('themes service', () => {
   it('should retrieve a module', () => {

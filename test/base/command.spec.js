@@ -1,7 +1,7 @@
 
 
 const should = require('should');
-const Command = require('../../src/core/command.js');
+const Command = require('../../src/base/command.js');
 
 describe('Command', () => {
   it('throws an exception when no params are passed', () => {
