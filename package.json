@@ -5,12 +5,12 @@
   "main": "think.js",
   "scripts": {
     "start": "think.js",
-    "test": "NODE_ENV=test  ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors  test/**/*.spec.js",
-    "watch-lint": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/eslint src/**/*.js",
-    "watch-test": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/_mocha --colors  test/**/*.spec.js",
-    "watch-ctest": "NODE_ENV=test  ./node_modules/.bin/nodemon ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors  test/**/*.spec.js",
+    "test": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors test/**/*.spec.js",
+    "watch-lint": "NODE_ENV=test ./node_modules/.bin/nodemon ./node_modules/.bin/eslint src/**/*.js",
+    "watch-test": "NODE_ENV=test ./node_modules/.bin/nodemon ./node_modules/.bin/_mocha --colors test/**/*.spec.js",
+    "watch-ctest": "NODE_ENV=test ./node_modules/.bin/nodemon ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors test/**/*.spec.js",
     "watch-all": "concurrently --kill-others \"npm run watch-ctest\" \"npm run watch-lint\"",
-    "check-coverage": "./node_modules/.bin/istanbul check-coverage --statements 71.43 --functions 0 --branches 50 --lines 71.43  test/**/*.spec.js",
+    "check-coverage": "./node_modules/.bin/istanbul check-coverage --statements 71.43 --functions 0 --branches 50 --lines 71.43 test/**/*.spec.js",
     "check-lint": "./node_modules/.bin/eslint src/**/*.js",
     "fix-lint": "./node_modules/.bin/eslint src/**/*.js --fix"
   },
