@@ -1,7 +1,7 @@
 /**
  * Validate options passed to class
  */
-const validateParams = function (params) {
+const validateParams = (params) => {
   if (!params) throw Error('Invalid Command instantiation parameters');
 
   const requiredParams = ['run', 'description', 'commandSample'];

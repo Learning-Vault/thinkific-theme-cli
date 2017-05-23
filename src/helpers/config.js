@@ -3,11 +3,10 @@ const fs = require('fs');
 
 const configFile = '.thinkific_config';
 
-let getConfigPath = function () { // eslint-disable-line prefer-const
-  return path.resolve(process.env.HOME, configFile);
-}
+let getConfigPath = () =>  // eslint-disable-line prefer-const
+   path.resolve(process.env.HOME, configFile)
 
-const getConfigData = function () {
+const getConfigData = () => {
   // load previous credentials (if applicable)
   try {
     return JSON.parse(fs.readFileSync(getConfigPath(), 'utf8'));
@@ -16,7 +15,7 @@ const getConfigData = function () {
   }
 }
 
-const setConfigData = function (data, callback) {
+const setConfigData = (data, callback) => {
   fs.writeFile(getConfigPath(), JSON.stringify(data), callback);
 };
 

@@ -6,7 +6,7 @@ let generatorService = require('../services/theme_generator'); // eslint-disable
 let syncService = require('../services/sync'); // eslint-disable-line prefer-const
 let print = require('../print'); // eslint-disable-line prefer-const
 
-const validateArgs = function (args) {
+const validateArgs = (args) => {
   if (args.length === 0) {
     throw Error('subcommand definition is required');
   }
@@ -42,7 +42,7 @@ ${chalk.bold('Themes found in your account:')}
 const download = themeId => generatorService.download(themeId);
 const sync = themeId => syncService.run(themeId);
 
-const run = function (args) {
+const run = (args) => {
   switch (args[0]) {
     case 'list':
       list();
