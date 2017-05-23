@@ -19,7 +19,7 @@ describe('think.js', () => {
       validateCommand() {
         return false;
       },
-      commandRunner(command) {
+      runCommand(command) {
         command.should.be.equal('help');
       },
     }
@@ -33,7 +33,7 @@ describe('think.js', () => {
     const command = 'hello-world';
     const helpers = {
       validateCommand() {},
-      commandRunner(cmd) {
+      runCommand(cmd) {
         cmd.should.be.equal(command);
       },
     }
@@ -46,7 +46,7 @@ describe('think.js', () => {
   it('calls help if no command was passed', () => {
     // overwrite runner
     const helpers = {
-      commandRunner: sinon.spy(),
+      runCommand: sinon.spy(),
     }
     think.__set__('helpers', helpers);
 
@@ -54,7 +54,7 @@ describe('think.js', () => {
     think([]);
 
     // should try to load the help function
-    helpers.commandRunner.calledWithExactly('help');
+    helpers.runCommand.calledWithExactly('help');
   });
 
   it('handles exceptions gracefully', () => {
@@ -62,7 +62,7 @@ describe('think.js', () => {
       validateCommand() {
         throw Error('Something went wrong');
       },
-      commandRunner() {},
+      runCommand() {},
     }
     think.__set__('helpers', helpers);
     should.throws(() => {

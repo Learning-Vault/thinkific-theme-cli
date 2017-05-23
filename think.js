@@ -7,20 +7,20 @@ const print = require('./src/print');
 const main = function (args) {
   // run help if no argument was passed
   if (args.length === 0) {
-    commandHelpers.commandRunner('help');
+    commandHelpers.runCommand('help');
     return;
   }
   const command = args.shift();
   if (commandHelpers.validateCommand(command)) {
     try {
-      commandHelpers.commandRunner(command, args);
+      commandHelpers.runCommand(command, args);
     } catch (e) {
       print(chalk.red(e.message));
-      commandHelpers.commandRunner('help');
+      commandHelpers.runCommand('help');
     }
   } else {
     print(chalk.red('\nERROR: invalid command'));
-    commandHelpers.commandRunner('help');
+    commandHelpers.runCommand('help');
   }
 };
 
