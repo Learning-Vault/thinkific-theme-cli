@@ -102,7 +102,6 @@ const extractTheme = (data, callback) => {
  * @param {function} callback
  */
 const updateConfigFile = (data, callback) => {
-  console.log('data', config)
   print(`${chalk.green('Updating config!')}\n`);
   if (!config.themes[data.theme_id]) {
     config.themes[data.theme_id] = data.theme_name;

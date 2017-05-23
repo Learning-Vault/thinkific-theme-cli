@@ -2,8 +2,6 @@
 const should = require('should');
 const nock = require('nock');
 const rewire = require('rewire');
-// const requestHelpers = require('../../src/helpers/request');
-// const configHelpers = require('../../src/helpers/config');
 
 const request = rewire('../../src/base/request');
 
@@ -15,7 +13,7 @@ describe('request', () => {
   before((callback) => {
     url = 'hello/world';
     configHelpers = {
-      get_config_data: () => ({
+      getConfigData: () => ({
         api_key: '1e8af83bf61d68de8d08a1f4dee08cdc',
         course_name: 'school',
         path: __dirname,
@@ -31,10 +29,6 @@ describe('request', () => {
   });
 
   describe('has a `get` function', () => {
-    it('that exists', () => {
-      should.exist(request.get);
-    });
-
     it('knows how to handle GET requests', (callback) => {
       const responseData = { id: 1, name: 'hello world' };
       const headers = {
@@ -43,7 +37,6 @@ describe('request', () => {
           'X-auth-subdomain': () => true,
         },
       };
-
       nock('http://school.lvh.me:3000', headers)
         .get(`/api/public/v1/${url}`)
         .reply(200, responseData);

@@ -5,7 +5,6 @@ let themeService = require('../services/themes'); // eslint-disable-line prefer-
 let generatorService = require('../services/theme_generator'); // eslint-disable-line prefer-const
 let print = require('../print'); // eslint-disable-line prefer-const
 
-
 const validateArgs = function (args) {
   if (args.length === 0) {
     throw Error('subcommand definition is required');
