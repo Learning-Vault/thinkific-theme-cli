@@ -10,7 +10,7 @@ const validateArgs = function (args) {
   if (args.length === 0) {
     throw Error('subcommand definition is required');
   }
-  if (['list', 'download', 'watch'].indexOf(args[0]) === -1) {
+  if (['list', 'download', 'sync'].indexOf(args[0]) === -1) {
     throw Error(`Invalid subcommands: ${args[0]}`);
   }
   if (['sync', 'download'].indexOf(args[0]) >= 0) {
@@ -60,7 +60,7 @@ const run = function (args) {
 
 module.exports = new Command({
   description: 'Downloads and syncs views with thinkific',
-  commandSample: 'think.js themes <subcommand:list|download> <theme_id>',
+  commandSample: 'think.js themes <subcommand:list|download|sync> <theme_id>',
   validateArgs,
   run,
 });

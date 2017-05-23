@@ -20,8 +20,15 @@ const setConfigData = function (data, callback) {
   fs.writeFile(getConfigPath(), JSON.stringify(data), callback);
 };
 
+const themeDirExistsSync = (themeName) => {
+  const config = getConfigData();
+  const themePath = `${config.path}/${themeName}`;
+  return fs.existsSync(themePath);
+};
+
 module.exports = {
   getConfigPath,
   getConfigData,
   setConfigData,
+  themeDirExistsSync,
 }
