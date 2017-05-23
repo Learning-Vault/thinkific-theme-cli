@@ -9,3 +9,6 @@ Thinkific NPM Tool
 * You'll need a thinkific API V1 key
 * switch to the cloned directory
 * start with `./think.js` and you should be able to continue from there
+
+# Know issues
+* help message isn't very friendly eg. `think.js themes <subcommand:list|download> <theme_id>`
