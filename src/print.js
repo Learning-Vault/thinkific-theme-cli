@@ -1,3 +1,3 @@
-module.exports = function (content) {
+module.exports = (content) => {
   process.stdout.write(content);
 };

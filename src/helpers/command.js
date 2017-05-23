@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const commandPath = path.resolve(__dirname, '..', 'commands');
 
-const runCommand = function (command, args) {
+const runCommand = (command, args) => {
   const mod = require( // eslint-disable-line import/no-dynamic-require, global-require
     path.resolve(commandPath, command));
   const opts = mod.options;
@@ -12,14 +12,8 @@ const runCommand = function (command, args) {
   }
   mod.run(args);
 }
-
-const validateCommand = function (command) {
-  return fs.existsSync(path.resolve(commandPath, `${command}.js`));
-};
-
-const getAvailableCommandFiles = function () {
-  return fs.readdirSync(commandPath);
-};
+const validateCommand = command => fs.existsSync(path.resolve(commandPath, `${command}.js`));
+const getAvailableCommandFiles = () => fs.readdirSync(commandPath);
 
 module.exports = {
   validateCommand,

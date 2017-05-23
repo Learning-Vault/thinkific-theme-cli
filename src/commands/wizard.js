@@ -6,14 +6,12 @@ const readline = require('readline');
 const async = require('async');
 const fs = require('fs');
 
-const getInputInterface = function () {
-  return readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-}
+const getInputInterface = () => readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-const validateArgs = function (args) {
+const validateArgs = (args) => {
   if (args.length === 0) {
     throw Error('subcommand definition is required');
   }
@@ -22,21 +20,21 @@ const validateArgs = function (args) {
   }
 };
 
-const setup = function () {
+const setup = () => {
   const credentials = configHelpers.getConfigData();
   const readLine = getInputInterface();
 
   const questions = {};
 
 // add questions to ask users
-  const addQuestion = function (key, baseQuestion, validation) {
+  const addQuestion = (key, baseQuestion, validation) => {
     let _question = '';
     _question += baseQuestion;
     if (Object.keys(credentials).length > 0) {
       _question += ` [current: ${credentials[key]}]`;
     }
     _question += '\n> ';
-    questions[key] = function (callback) {
+    questions[key] = (callback) => {
       readLine.question(chalk.cyan(_question), (input) => {
         let err = null;
         let _input = input;
@@ -82,7 +80,7 @@ const setup = function () {
   });
 }
 
-const run = function (args) {
+const run = (args) => {
   switch (args[0]) {
     case 'setup':
       setup();
