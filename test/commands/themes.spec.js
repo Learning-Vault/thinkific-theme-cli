@@ -15,6 +15,18 @@ describe('themes command', () => {
     });
   });
 
+  it('should throw errors when valid theme id is not passed to sync subcomand', () => {
+    should.throws(() => {
+      themes.options.validateArgs(['sync']);
+    });
+  });
+
+  it('should throw errors when valid theme id is not passed to download subcomand', () => {
+    should.throws(() => {
+      themes.options.validateArgs(['download']);
+    });
+  });
+
   it('should throw errors when invalid subcommands are passed', () => {
     should.throws(() => {
       themes.options.validateArgs(['invalid']);
@@ -26,6 +38,30 @@ describe('themes command', () => {
       themes.options.validateArgs([]);
     });
   });
+
+  it('`theme download {id}` should call download service', () => {
+    const themeId = 12;
+    const generatorService = {
+      download: receivedThemeId => should(receivedThemeId).equal(themeId),
+    };
+    themes.__set__('generatorService', generatorService);
+    should.doesNotThrow(() => {
+      themes.run(['download', themeId]);
+    });
+  });
+
+  it('`theme sync {id}` should call download service', () => {
+    const themeId = 12;
+    const syncService = {
+      run: receivedThemeId => should(receivedThemeId).equal(themeId),
+    };
+    themes.__set__('syncService', syncService);
+    should.doesNotThrow(() => {
+      themes.run(['sync', themeId]);
+    });
+  });
+
+  it('`theme sync {id}` should call sync service', () => {});
 
   it('should be able to execute the `theme list` successfuly', () => {
     const print = sinon.spy(() => {});
