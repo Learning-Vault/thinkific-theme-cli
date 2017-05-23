@@ -21,6 +21,18 @@ describe('themes command', () => {
     });
   });
 
+  it('should throw an error when the download subcommand is missing theme id', () => {
+    should.throws(() => {
+      themes.options.validateArgs(['download']);
+    });
+  });
+
+  it('should throw an error when the watch subcommand is missing theme id', () => {
+    should.throws(() => {
+      themes.options.validateArgs(['watch']);
+    });
+  });
+
   it('should throw errors when no subcommands are passed', () => {
     should.throws(() => {
       themes.options.validateArgs([]);

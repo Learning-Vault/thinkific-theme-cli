@@ -9,8 +9,12 @@ const validateArgs = function (args) {
   if (args.length === 0) {
     throw Error('subcommand definition is required');
   }
-  if (['list', 'download'].indexOf(args[0]) === -1) {
+  if (['list', 'download', 'watch'].indexOf(args[0]) === -1) {
     throw Error(`Invalid subcommands: ${args[0]}`);
+  }
+
+  if (['download', 'watch'].indexOf(args[0]) >= 0) {
+    if (args.length <= 1) throw Error(`${args[0]} requires a theme id`);
   }
 };
 
@@ -37,12 +41,17 @@ const download = (themeId) => {
   generatorService.download(themeId);
 }
 
+const watch = () => {};
+
 const run = function (args) {
   switch (args[0]) {
     case 'list':
       list();
       break;
     case 'download':
+      download(args[1]);
+      break;
+    case 'watch':
       download(args[1]);
       break;
     default:
