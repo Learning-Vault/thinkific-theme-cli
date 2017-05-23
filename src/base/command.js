@@ -12,7 +12,7 @@ const validateParams = (params) => {
   });
 }
 
-const Command = (params) => {
+const Command = function (params) {
   validateParams(params);
   this.options = params;
 
