@@ -61,8 +61,9 @@ describe('themes generator service', () => {
       service.__set__('print', () => {});
       service.__set__('fs', fs);
 
-      should.throws(() => {
-        service.__get__('generateTheme')(12, () => {});
+      service.__get__('generateTheme')(12, (err) => {
+        should.exist(err);
+        should(err.match(/has already being downloaded/)).not.be.null();
       });
     });
 
