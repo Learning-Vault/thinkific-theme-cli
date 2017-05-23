@@ -24,13 +24,15 @@ const config = configHelpers.getConfigData();
 const generateTheme = (themeId, callback) => {
   print('Requesting generation:\n');
   request.post(BASE, { theme_id: themeId }, (err, response) => {
-    print(`${chalk.green('done!')}\n`);
+    let _generationErr = err;
+    const themePath = `${config.path}/${response.theme_name}`;
 
-    if (fs.existsSync(`${config.path}/${response.theme_name}`)) {
-      throw Error('The theme already exists.');
+    if (!_generationErr && fs.existsSync(themePath)) {
+      _generationErr = `The ${response.theme_name} has already being downloaded.`;
     }
+    if (!_generationErr) print(`${chalk.green('done!')}\n`);
 
-    callback(null, response);
+    callback(_generationErr, response);
   });
 }
 
@@ -90,7 +92,7 @@ const extractTheme = (data, callback) => {
   const dir = `${config.path}/${data.theme_name}`;
   print(`${chalk.green('extracting!')}\n`);
   extract(data.tmp, { dir }, (err) => {
-    callback(err);
+    callback(err, data);
   });
 }
 
@@ -106,7 +108,7 @@ const updateConfigFile = (data, callback) => {
   if (!config.themes[data.theme_id]) {
     config.themes[data.theme_id] = data.theme_name;
   }
-  configHelpers.setConfigData(config, () => callback(data)); // continue passing the data
+  configHelpers.setConfigData(config, () => (callback(null, data))); // continue passing the data
 }
 
 /**
@@ -131,7 +133,15 @@ const download = (themeId) => {
 
   const initProcess = callback => callback(null, themeId);
   const endProcess = (err, data) => {
-    print(`\nYour theme can be found here: ${config.path}/${data.theme_name} !!!!\n\n`);
+    let msg;
+    if (err) {
+      msg = chalk.red(`\n${err}\n\n`);
+    } else {
+      const path = chalk.green(`${config.path}/${data.theme_name}`);
+      msg = '\nThe data.theme_name theme can be found here:\n' +
+      `${path} !!!!\n\n`
+    }
+    print(msg);
   }
   const process = [initProcess, generateTheme, checkThemeGeneration, downloadFile,
     extractTheme, updateConfigFile];
