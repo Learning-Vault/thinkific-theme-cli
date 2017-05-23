@@ -1,1 +1,9 @@
-{"hello":"world"}
+{
+  "api_key": "nuajnoadsf0ijnads0hnasd8yw4",
+  "course_name": "school",
+  "path": "/tmp",
+  "env": "local",
+  "themes": {
+    "12":"Horizon"
+  }
+}
