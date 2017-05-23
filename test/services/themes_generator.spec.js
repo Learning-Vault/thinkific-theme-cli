@@ -54,12 +54,9 @@ describe('themes generator service', () => {
           callback(null, expectedResponse);
         },
       };
-      const fs = {
-        existsSync: () => true,
-      }
+      service.__set__('configHelpers', { themeDirExistsSync: () => true });
       service.__set__('request', request);
       service.__set__('print', () => {});
-      service.__set__('fs', fs);
 
       service.__get__('generateTheme')(12, (err) => {
         should.exist(err);

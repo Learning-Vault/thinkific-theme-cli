@@ -10,22 +10,15 @@ const validateArgs = (args) => {
   if (args.length === 0) {
     throw Error('subcommand definition is required');
   }
-<<<<<<< HEAD
+
   if (['list', 'download', 'sync'].indexOf(args[0]) === -1) {
     throw Error(`Invalid subcommands: ${args[0]}`);
   }
+
   if (['sync', 'download'].indexOf(args[0]) >= 0) {
     if (args.length <= 1) {
       throw Error(`The ${args[0]} subcommand requires the theme id`);
     }
-=======
-  if (['list', 'download', 'watch'].indexOf(args[0]) === -1) {
-    throw Error(`Invalid subcommands: ${args[0]}`);
-  }
-
-  if (['download', 'watch'].indexOf(args[0]) >= 0) {
-    if (args.length <= 1) throw Error(`${args[0]} requires a theme id`);
->>>>>>> 2dbb5c71ffff3a8116f4778669c4e2782f198742
   }
 };
 
@@ -51,13 +44,7 @@ ${chalk.bold('Themes found in your account:')}
 const download = themeId => generatorService.download(themeId);
 const sync = themeId => syncService.run(themeId);
 
-<<<<<<< HEAD
 const run = (args) => {
-=======
-const watch = () => {};
-
-const run = function (args) {
->>>>>>> 2dbb5c71ffff3a8116f4778669c4e2782f198742
   switch (args[0]) {
     case 'list':
       list();
@@ -65,13 +52,8 @@ const run = function (args) {
     case 'download':
       download(args[1]);
       break;
-<<<<<<< HEAD
     case 'sync':
       sync(args[1]);
-=======
-    case 'watch':
-      download(args[1]);
->>>>>>> 2dbb5c71ffff3a8116f4778669c4e2782f198742
       break;
     default:
       throw Error('Unrecognizeable subcommand');
