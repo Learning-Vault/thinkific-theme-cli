@@ -1,26 +1,26 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const helpers = require('./src/core/helpers');
-const print = require('./src/core/print');
+const commandHelpers = require('./src/helpers/command');
+const print = require('./src/print');
 
-const main = function (args) {
+const main = (args) => {
   // run help if no argument was passed
   if (args.length === 0) {
-    helpers.commandRunner('help');
+    commandHelpers.runCommand('help');
     return;
   }
   const command = args.shift();
-  if (helpers.validateCommand(command)) {
+  if (commandHelpers.validateCommand(command)) {
     try {
-      helpers.commandRunner(command, args);
+      commandHelpers.runCommand(command, args);
     } catch (e) {
       print(chalk.red(e.message));
-      helpers.commandRunner('help');
+      commandHelpers.runCommand('help');
     }
   } else {
     print(chalk.red('\nERROR: invalid command'));
-    helpers.commandRunner('help');
+    commandHelpers.runCommand('help');
   }
 };
 

@@ -1,7 +1,5 @@
 const should = require('should');
-const rewire = require('rewire');
-
-const wizard = rewire('../../src/commands/wizard');
+const wizard = require('../../src/commands/wizard');
 
 describe('wizard command', () => {
   it('should retrieve a module', () => {
