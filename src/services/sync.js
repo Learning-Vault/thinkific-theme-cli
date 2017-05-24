@@ -1,6 +1,6 @@
 const chokidar = require('chokidar');
 const path = require('path');
-const print = require('../print');
+let print = require('../print'); // eslint-disable-line prefer-const
 const chalk = require('chalk');
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 
@@ -37,8 +37,7 @@ const run = (themeId) => {
   chokidar.watch(themePath, {
     filter: /\.liquid$/,
     recursive: true,
-  })
-    .on('ready', () => (ready = true))
+  }).on('ready', () => (ready = true))
     .on('add', (filename) => { if (ready) syncFile('add', themePath, filename); })
     .on('change', (filename) => { if (ready) syncFile('change', themePath, filename) })
     .on('unlink', (filename) => { if (ready) syncFile('unlink', themePath, filename) });

@@ -23,10 +23,11 @@ describe('command Helpers', () => {
     const fs = {
       writeFile: (configPath, data) => {
         should(configPath).be.equal(expectedPath);
-        should(data).be.equal(expectedData);
+        should(data).be.equal(JSON.stringify(expectedData));
       },
     }
     const getConfigPath = () => expectedPath;
+    configHelpers.__set__('setConfigPath', () => {});
     configHelpers.__set__('getConfigPath', getConfigPath);
     configHelpers.__set__('fs', fs);
     should(configHelpers.setConfigData(expectedData, () => {}))

@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs');
+let fs = require('fs'); // eslint-disable-line prefer-const
 
 const configFile = '.thinkific_config';
 

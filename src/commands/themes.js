@@ -2,7 +2,7 @@ const Command = require('../base/command');
 const chalk = require('chalk');
 // These are let so that I can overwrite theme in my tests
 let themeService = require('../services/themes'); // eslint-disable-line prefer-const
-let generatorService = require('../services/theme_generator'); // eslint-disable-line prefer-const
+let generatorService = require('../services/theme-generator'); // eslint-disable-line prefer-const
 let syncService = require('../services/sync'); // eslint-disable-line prefer-const
 let print = require('../print'); // eslint-disable-line prefer-const
 

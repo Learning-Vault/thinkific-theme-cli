@@ -13,6 +13,7 @@ describe('sync service', () => {
 
   describe('has a `run` function', () => {
     it('that throws an error if credentials are missing', () => {
+      service.__set__('print', () => {});
       should.throws(() => {
         service.run();
       });

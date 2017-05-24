@@ -3,7 +3,7 @@ const rewire = require('rewire');
 const sinon = require('sinon');
 const fixture = require('../fixtures/config-sample.json');
 
-const service = rewire('../../src/services/theme_generator');
+const service = rewire('../../src/services/theme-generator');
 
 describe('themes generator service', () => {
   describe('has a download function', () => {
