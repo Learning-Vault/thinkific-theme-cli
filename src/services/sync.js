@@ -1,20 +1,32 @@
 const chokidar = require('chokidar');
 const path = require('path');
-let print = require('../print'); // eslint-disable-line prefer-const
 const chalk = require('chalk');
+const fs = require('fs');
+const customSiteThemeView = require('../services/custom-site-theme-view');
+let print = require('../print'); // eslint-disable-line prefer-const
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 
-const syncFile = (eventType, themePath, filename) => {
-  const resource = filename.replace(`${filename}/`, '');
+const syncFile = (eventType, themeId, themePath, filename) => {
+  const resource = filename.replace(`${themePath}/`, '');
+  const content = fs.readFileSync(filename).toString('utf8');
   switch (eventType) {
     case 'add':
       print(chalk.green(`File Created ${resource}\n`));
+      customSiteThemeView.post(themeId, resource, content, (err, response) => {
+        console.log(err, response);
+      });
       break;
     case 'change':
       print(chalk.green(`File Changed ${resource}\n`));
+      customSiteThemeView.put(themeId, resource, content, (err, response) => {
+        console.log(err, response);
+      });
       break;
     case 'unlink':
       print(chalk.green(`File Deleted ${resource}\n`));
+      customSiteThemeView.destroy(themeId, resource, (err, response) => {
+        console.log(err, response);
+      });
       break;
     default:
       print(chalk.red(`didn't understand ${resource} event\n`));
@@ -38,9 +50,9 @@ const run = (themeId) => {
     filter: /\.liquid$/,
     recursive: true,
   }).on('ready', () => (ready = true))
-    .on('add', (filename) => { if (ready) syncFile('add', themePath, filename); })
-    .on('change', (filename) => { if (ready) syncFile('change', themePath, filename) })
-    .on('unlink', (filename) => { if (ready) syncFile('unlink', themePath, filename) });
+    .on('add', (filename) => { if (ready) syncFile('add', themeId, themePath, filename); })
+    .on('change', (filename) => { if (ready) syncFile('change', themeId, themePath, filename) })
+    .on('unlink', (filename) => { if (ready) syncFile('unlink', themeId, themePath, filename) });
 };
 
 module.exports = {

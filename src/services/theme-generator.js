@@ -30,7 +30,6 @@ const generateTheme = (themeId, callback) => {
       _generationErr = `The ${response.theme_name} has already being downloaded.`;
     }
     if (!_generationErr) print(`${chalk.green('done!')}\n`);
-
     callback(_generationErr, response);
   });
 }

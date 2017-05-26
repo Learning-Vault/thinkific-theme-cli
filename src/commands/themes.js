@@ -35,7 +35,7 @@ ${chalk.bold('Themes found in your account:')}
     content += chalk.grey('\tID:\tName\n');
     content += '\t---\t----\n';
     body.forEach((theme) => {
-      content += `\t${theme.id}\t${theme.name}`;
+      content += `\n\t${theme.id}\t${theme.name}`;
     });
     print(`${content}\n\n`);
   });
