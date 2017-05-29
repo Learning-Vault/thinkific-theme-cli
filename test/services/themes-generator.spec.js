@@ -3,7 +3,7 @@ const rewire = require('rewire');
 const sinon = require('sinon');
 const fixture = require('../fixtures/config-sample.json');
 
-const service = rewire('../../src/services/theme_generator');
+const service = rewire('../../src/services/theme-generator');
 
 describe('themes generator service', () => {
   describe('has a download function', () => {
@@ -54,12 +54,9 @@ describe('themes generator service', () => {
           callback(null, expectedResponse);
         },
       };
-      const fs = {
-        existsSync: () => true,
-      }
+      service.__set__('configHelpers', { themeDirExistsSync: () => true });
       service.__set__('request', request);
       service.__set__('print', () => {});
-      service.__set__('fs', fs);
 
       service.__get__('generateTheme')(12, (err) => {
         should.exist(err);

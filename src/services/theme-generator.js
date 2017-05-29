@@ -25,13 +25,11 @@ const generateTheme = (themeId, callback) => {
   print('Requesting generation:\n');
   request.post(BASE, { theme_id: themeId }, (err, response) => {
     let _generationErr = err;
-    const themePath = `${config.path}/${response.theme_name}`;
 
-    if (!_generationErr && fs.existsSync(themePath)) {
+    if (!_generationErr && configHelpers.themeDirExistsSync(response.theme_name)) {
       _generationErr = `The ${response.theme_name} has already being downloaded.`;
     }
     if (!_generationErr) print(`${chalk.green('done!')}\n`);
-
     callback(_generationErr, response);
   });
 }

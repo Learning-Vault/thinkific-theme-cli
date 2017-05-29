@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs');
+let fs = require('fs'); // eslint-disable-line prefer-const
 
 const configFile = '.thinkific_config';
 
@@ -19,8 +19,15 @@ const setConfigData = (data, callback) => {
   fs.writeFile(getConfigPath(), JSON.stringify(data), callback);
 };
 
+const themeDirExistsSync = (themeName) => {
+  const config = getConfigData();
+  const themePath = `${config.path}/${themeName}`;
+  return fs.existsSync(themePath);
+};
+
 module.exports = {
   getConfigPath,
   getConfigData,
   setConfigData,
+  themeDirExistsSync,
 }
