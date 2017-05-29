@@ -12,3 +12,5 @@ Thinkific NPM Tool
 
 # Know issues
 * help message isn't very friendly eg. `think.js themes <subcommand:list|download> <theme_id>`
+* As it is at the moment, the sync is strict. Nothing should happen to the theme when sync command
+is not watching the files.
