@@ -11,21 +11,33 @@ const syncFile = (eventType, themeId, themePath, filename) => {
   const content = fs.readFileSync(filename).toString('utf8');
   switch (eventType) {
     case 'add':
-      print(chalk.green(`File Created ${resource}\n`));
-      customSiteThemeView.post(themeId, resource, content, (err, response) => {
-        console.log(err, response);
+      print(chalk.green(`${resource}: Uploading File\n`));
+      customSiteThemeView.post(themeId, resource, content, (err) => {
+        if (err) {
+          print(chalk.red(err));
+        } else {
+          print(chalk.green(`${resource}: File Created\n`));
+        }
       });
       break;
     case 'change':
-      print(chalk.green(`File Changed ${resource}\n`));
-      customSiteThemeView.put(themeId, resource, content, (err, response) => {
-        console.log(err, response);
+      print(chalk.green(`${resource}: Uploading changes\n`));
+      customSiteThemeView.put(themeId, resource, content, (err) => {
+        if (err) {
+          print(chalk.red(err));
+        } else {
+          print(chalk.green(`${resource}: File Changed\n`));
+        }
       });
       break;
     case 'unlink':
-      print(chalk.green(`File Deleted ${resource}\n`));
-      customSiteThemeView.destroy(themeId, resource, (err, response) => {
-        console.log(err, response);
+      print(chalk.green(`${resource}: Deleting File\n`));
+      customSiteThemeView.destroy(themeId, resource, (err) => {
+        if (err) {
+          print(chalk.red(err));
+        } else {
+          print(chalk.green(`${resource}: File Deleted\n`));
+        }
       });
       break;
     default:

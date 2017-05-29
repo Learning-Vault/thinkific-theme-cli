@@ -29,7 +29,18 @@ const get = (url, callback) => {
   }
   printRequest(options);
   request(options, (err, response, body) => {
-    callback(err, JSON.parse(body));
+    const status = response.statusCode;
+    switch (status) {
+      case 200:
+        callback(err, JSON.parse(body));
+        break;
+      case 400:
+        callback(err);
+        break;
+      default:
+        callback(`Could not understand ${status} status`);
+        break;
+    }
   });
 }
 
@@ -43,8 +54,24 @@ const post = (url, data, callback) => {
     headers,
   }
   printRequest(options);
+  console.log('options', options);
   request(options, (err, response, body) => {
-    callback(err, JSON.parse(body));
+    const status = response.statusCode;
+    console.log('body', body);
+    console.log('err', err);
+    console.log('response', response);
+    switch (status) {
+      case 200:
+      case 201:
+        callback(err, JSON.parse(body));
+        break;
+      case 400:
+        callback(err);
+        break;
+      default:
+        callback(`Could not understand ${status} status`);
+        break;
+    }
   });
 }
 
@@ -59,7 +86,18 @@ const put = (url, data, callback) => {
   }
   printRequest(options);
   request(options, (err, response, body) => {
-    callback(err, JSON.parse(body));
+    const status = response.statusCode;
+    switch (status) {
+      case 202:
+        callback(err, JSON.parse(body));
+        break;
+      case 400:
+        callback(err);
+        break;
+      default:
+        callback(`Could not understand ${status} status`);
+        break;
+    }
   });
 }
 
@@ -73,7 +111,18 @@ const remove = (url, callback) => {
   }
   printRequest(options);
   request(options, (err, response, body) => {
-    callback(err, JSON.parse(body));
+    const status = response.statusCode;
+    switch (status) {
+      case 204:
+        callback(err, JSON.parse(body));
+        break;
+      case 400:
+        callback(err);
+        break;
+      default:
+        callback(`Could not understand ${status} status`);
+        break;
+    }
   });
 }
 

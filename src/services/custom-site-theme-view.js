@@ -4,19 +4,19 @@ let request = require('../base/request'); // eslint-disable-line prefer-const
 const BASE = 'custom_site_theme_views';
 
 const post = (themeId, relativePath, content, callback) => {
-  request.post(BASE, { relative_path: relativePath, content }, (err, response) => {
+  request.post(BASE, { theme_id: themeId, path: relativePath, content }, (err, response) => {
     callback(err, response);
   });
 }
 
 const put = (themeId, relativePath, content, callback) => {
-  request.put(`${BASE}/${themeId}`, { relative_path: relativePath, content }, (err, response) => {
+  request.put(`${BASE}/${themeId}`, { path: relativePath, content }, (err, response) => {
     callback(err, response);
   });
 }
 
 const destroy = (themeId, relativePath, callback) => {
-  request.destroy(`${BASE}/${themeId}`, { relative_path: relativePath }, (err, response) => {
+  request.destroy(`${BASE}/${themeId}`, { path: relativePath }, (err, response) => {
     callback(err, response);
   });
 }
