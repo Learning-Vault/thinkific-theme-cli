@@ -8,13 +8,13 @@ let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-
 
 const syncFile = (eventType, themeId, themePath, filename) => {
   const resource = filename.replace(`${themePath}/`, '');
-  const content = fs.readFileSync(filename).toString('utf8');
+  const content = (eventType !== 'unlink') ? fs.readFileSync(filename).toString('utf8') : '';
   switch (eventType) {
     case 'add':
       print(chalk.green(`${resource}: Uploading File\n`));
       customSiteThemeView.post(themeId, resource, content, (err) => {
         if (err) {
-          print(chalk.red(err));
+          print(chalk.red(err.message));
         } else {
           print(chalk.green(`${resource}: File Created\n`));
         }

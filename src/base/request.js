@@ -35,7 +35,7 @@ const get = (url, callback) => {
         callback(err, JSON.parse(body));
         break;
       case 400:
-        callback(err);
+        callback(JSON.parse(body));
         break;
       default:
         callback(`Could not understand ${status} status`);
@@ -54,19 +54,15 @@ const post = (url, data, callback) => {
     headers,
   }
   printRequest(options);
-  console.log('options', options);
   request(options, (err, response, body) => {
     const status = response.statusCode;
-    console.log('body', body);
-    console.log('err', err);
-    console.log('response', response);
     switch (status) {
       case 200:
       case 201:
         callback(err, JSON.parse(body));
         break;
       case 400:
-        callback(err);
+        callback(JSON.parse(body));
         break;
       default:
         callback(`Could not understand ${status} status`);
@@ -92,7 +88,7 @@ const put = (url, data, callback) => {
         callback(err, JSON.parse(body));
         break;
       case 400:
-        callback(err);
+        callback(JSON.parse(body));
         break;
       default:
         callback(`Could not understand ${status} status`);
@@ -117,7 +113,7 @@ const remove = (url, callback) => {
         callback(err, JSON.parse(body));
         break;
       case 400:
-        callback(err);
+        callback(JSON.parse(body));
         break;
       default:
         callback(`Could not understand ${status} status`);
