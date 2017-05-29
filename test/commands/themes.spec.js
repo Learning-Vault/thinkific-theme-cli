@@ -62,7 +62,7 @@ describe('themes command', () => {
     });
   });
 
-  it('`theme sync {id}` should call download service', () => {
+  it('`theme sync {id}` should call sync service', () => {
     const themeId = 12;
     const syncService = {
       run: receivedThemeId => should(receivedThemeId).equal(themeId),
