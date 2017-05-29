@@ -65,7 +65,7 @@ const post = (url, data, callback) => {
         callback(JSON.parse(body));
         break;
       default:
-        callback(`Could not understand ${status} status`);
+        callback(`Unexpected response code: HTTP Status ${status}`);
         break;
     }
   });
@@ -91,7 +91,7 @@ const put = (url, data, callback) => {
         callback(JSON.parse(body));
         break;
       default:
-        callback(`Could not understand ${status} status`);
+        callback(`Unexpected response code: HTTP Status ${status}`);
         break;
     }
   });
@@ -116,7 +116,7 @@ const remove = (url, callback) => {
         callback(JSON.parse(body));
         break;
       default:
-        callback(`Could not understand ${status} status`);
+        callback(`Unexpected response code: HTTP Status ${status}`);
         break;
     }
   });
