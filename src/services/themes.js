@@ -5,6 +5,7 @@ const BASE = 'custom_site_themes';
 
 const get = (callback) => {
   request.get(BASE, (err, data) => {
+    console.log(err)
     callback(err, data.custom_site_themes);
   });
 }

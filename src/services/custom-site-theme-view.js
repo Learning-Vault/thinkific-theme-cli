@@ -16,7 +16,7 @@ const put = (themeId, relativePath, content, callback) => {
 }
 
 const destroy = (themeId, relativePath, callback) => {
-  request.destroy(`${BASE}/${themeId}`, { path: relativePath }, (err, response) => {
+  request.remove(`${BASE}/${themeId}`, { path: relativePath }, (err, response) => {
     callback(err, response);
   });
 }

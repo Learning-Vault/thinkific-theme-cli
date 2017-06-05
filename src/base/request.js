@@ -97,12 +97,13 @@ const put = (url, data, callback) => {
   });
 }
 
-const remove = (url, callback) => {
+const remove = (url, data, callback) => {
   const config = getConfig();
   const headers = getHeader(config);
   const options = {
     url: requestHelpers.buildUrl(config.env, url),
     method: 'DELETE',
+    form: data,
     headers,
   }
   printRequest(options);
@@ -110,7 +111,7 @@ const remove = (url, callback) => {
     const status = response.statusCode;
     switch (status) {
       case 204:
-        callback(err, JSON.parse(body));
+        callback(err, {});
         break;
       case 400:
         callback(JSON.parse(body));
