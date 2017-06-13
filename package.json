@@ -2,7 +2,10 @@
   "name": "think-npm",
   "version": "0.0.1",
   "description": "Thinkific NPM Tool",
-  "main": "think.js",
+  "bin": {
+    "thinkcli": "./bin/think.js"
+  },
+  "preferGlobal": true,
   "scripts": {
     "start": "think.js",
     "test": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --colors test/**/*.spec.js",
