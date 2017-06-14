@@ -90,7 +90,11 @@ const extractTheme = (data, callback) => {
   const dir = `${config.path}/${data.theme_name}`;
   print(`${chalk.green('extracting!')}\n`);
   extract(data.tmp, { dir }, (err) => {
-    callback(err, data);
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data);
+    }
   });
 }
 
