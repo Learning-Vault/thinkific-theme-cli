@@ -25,7 +25,7 @@ const validateArgs = (args) => {
 const list = () => {
   themeService.get((err, body) => {
     if (err) {
-      print(chalk.red(`Something went bananas: ${err.message}`));
+      print(chalk.red(`Something went bananas: ${err}\n`));
       return;
     }
     let content = `

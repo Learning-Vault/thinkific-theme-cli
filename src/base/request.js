@@ -34,8 +34,9 @@ const get = (url, callback) => {
       case 200:
         callback(err, JSON.parse(body));
         break;
+      case 401:
       case 400:
-        callback(JSON.parse(body));
+        callback(JSON.parse(body).error);
         break;
       default:
         callback(`Could not understand ${status} status`);
@@ -61,8 +62,9 @@ const post = (url, data, callback) => {
       case 201:
         callback(err, JSON.parse(body));
         break;
+      case 401:
       case 400:
-        callback(JSON.parse(body));
+        callback(JSON.parse(body).error);
         break;
       default:
         callback(`Unexpected response code: HTTP Status ${status}`);
@@ -87,8 +89,9 @@ const put = (url, data, callback) => {
       case 202:
         callback(err, JSON.parse(body));
         break;
+      case 401:
       case 400:
-        callback(JSON.parse(body));
+        callback(JSON.parse(body).error);
         break;
       default:
         callback(`Unexpected response code: HTTP Status ${status}`);
@@ -113,8 +116,9 @@ const remove = (url, data, callback) => {
       case 204:
         callback(err, {});
         break;
+      case 401:
       case 400:
-        callback(JSON.parse(body));
+        callback(JSON.parse(body).error);
         break;
       default:
         callback(`Unexpected response code: HTTP Status ${status}`);
