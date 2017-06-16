@@ -20,7 +20,7 @@ describe('Command', () => {
     should.doesNotThrow(() => {
       const c = new Command({
         command: 'test',
-        commandSample: 'think.js test',
+        commandSample: 'thinkcli test',
         description: 'print out help a help statement',
         run() {
           testCb();

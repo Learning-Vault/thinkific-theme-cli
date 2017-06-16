@@ -4,7 +4,7 @@ const sinon = require('sinon');
 
 const think = rewire('../think');
 
-describe('think.js', () => {
+describe('thinkcli', () => {
   before((beforeCb) => {
     think.__set__('print', () => {});
     beforeCb();
