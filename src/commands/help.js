@@ -11,7 +11,7 @@ let commandHelpers = require('../helpers/command'); // eslint-disable-line prefe
 let print = require('../print'); // eslint-disable-line prefer-const
 
 let output = `
-Usage: ${chalk.bold('think.js <command> <subcommand>')}
+Usage: ${chalk.bold('thinkcli <command> <subcommand>')}
 
   Commands:`;
 
@@ -29,7 +29,7 @@ let loadModule = file =>  // eslint-disable-line prefer-const
 
 const help = new Command({
   description: 'prints out a help statement',
-  commandSample: 'think.js help',
+  commandSample: 'thinkcli help',
   run() {
     // load all modules
     const files = commandHelpers.getAvailableCommandFiles();

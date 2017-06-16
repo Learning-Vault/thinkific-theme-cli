@@ -92,7 +92,7 @@ const run = (args) => {
 
 module.exports = new Command({
   description: 'Setup credentials',
-  commandSample: 'think.js wizard <subcommand:setup>',
+  commandSample: 'thinkcli wizard <subcommand:setup>',
   validateArgs,
   run,
 });
