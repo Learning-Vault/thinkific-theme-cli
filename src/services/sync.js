@@ -11,10 +11,10 @@ const syncFile = (eventType, themeId, themePath, filename) => {
   const content = (eventType !== 'unlink') ? fs.readFileSync(filename).toString('utf8') : '';
   switch (eventType) {
     case 'add':
-      print(chalk.green(`${resource}: Uploading File\n`));
+      print(chalk.green(`${resource}: Uploading File!\n`));
       customSiteThemeView.post(themeId, resource, content, (err) => {
         if (err) {
-          print(chalk.red(err.message));
+          print(chalk.red(err));
         } else {
           print(chalk.green(`${resource}: File Created\n`));
         }
