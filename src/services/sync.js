@@ -2,19 +2,21 @@ const chokidar = require('chokidar');
 const path = require('path');
 const chalk = require('chalk');
 const fs = require('fs');
-const customSiteThemeView = require('../services/custom-site-theme-view');
+const customSiteThemeViewService = require('../services/custom-site-theme-view');
+const assetService = require('../services/asset');
 let print = require('../print'); // eslint-disable-line prefer-const
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 
 const syncFile = (eventType, themeId, themePath, filename) => {
   const resource = filename.replace(`${themePath}/`, '');
   const content = (eventType !== 'unlink') ? fs.readFileSync(filename).toString('utf8') : '';
+  const service = resource.startsWith("assets") ? assetService: customSiteThemeViewService;
   switch (eventType) {
     case 'add':
       print(chalk.green(`${resource}: Uploading File!\n`));
-      customSiteThemeView.post(themeId, resource, content, (err) => {
+      service.post(themeId, resource, content, (err) => {
         if (err) {
-          print(chalk.red(err));
+          print(chalk.red(`${resource}: ${err}\n`));
         } else {
           print(chalk.green(`${resource}: File Created\n`));
         }
@@ -22,9 +24,9 @@ const syncFile = (eventType, themeId, themePath, filename) => {
       break;
     case 'change':
       print(chalk.green(`${resource}: Uploading changes\n`));
-      customSiteThemeView.put(themeId, resource, content, (err) => {
+      service.put(themeId, resource, content, (err) => {
         if (err) {
-          print(chalk.red(err));
+          print(chalk.red(`${resource}: ${err}\n`));
         } else {
           print(chalk.green(`${resource}: File Changed\n`));
         }
@@ -32,9 +34,9 @@ const syncFile = (eventType, themeId, themePath, filename) => {
       break;
     case 'unlink':
       print(chalk.green(`${resource}: Deleting File\n`));
-      customSiteThemeView.destroy(themeId, resource, (err) => {
+      service.destroy(themeId, resource, (err) => {
         if (err) {
-          print(chalk.red(err));
+          print(chalk.red(`${resource}: ${err}\n`));
         } else {
           print(chalk.green(`${resource}: File Deleted\n`));
         }
