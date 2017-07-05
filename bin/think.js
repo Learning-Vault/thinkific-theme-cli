@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const commandHelpers = require('./src/helpers/command');
-const print = require('./src/print');
+const commandHelpers = require('../src/helpers/command');
+const print = require('../src/print');
 
 const main = (args) => {
   // run help if no argument was passed
