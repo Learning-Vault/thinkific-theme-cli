@@ -2,7 +2,7 @@
 Thinkific NPM Tool
 
 # How to install
-* Run `npm i -g git://git@github.com:thinkific/think-npm.git#implement-global-cli`
+* Run `npm i -g git://git@github.com:thinkific/think-npm.git`
 
 # How to use:
 * You'll need a thinkific API V1 key
