@@ -64,7 +64,7 @@ describe('request', () => {
         .post(`/api/public/v1/${url}`)
         .reply(200, responseData);
 
-      request.post('hello/world', postData, false, (err, data) => {
+      request.post('hello/world', postData, (err, data) => {
         should.not.exist(err);
         data.should.deepEqual(responseData);
         callback();

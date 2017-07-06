@@ -32,7 +32,7 @@ describe('themes generator service', () => {
     it('hits the server to get the generation started', (testCb) => {
       const expectedResponse = { hello: 'world' };
       const request = {
-        post: (base, data, multipart, callback) => {
+        post: (base, data, callback) => {
           callback(null, expectedResponse);
         },
       };
@@ -52,7 +52,7 @@ describe('themes generator service', () => {
     it('theme generation fails if the theme has already been downloaded', () => {
       const expectedResponse = { hello: 'world' };
       const request = {
-        post: (base, data, multipart, callback) => {
+        post: (base, data, callback) => {
           callback(null, expectedResponse);
         },
       };
