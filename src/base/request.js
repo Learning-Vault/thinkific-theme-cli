@@ -1,12 +1,15 @@
 // for test purposes, we need to overwrite the request module.
 const request = require('request');
-const chalk = require('chalk');
+const mime = require('mime');
+const path = require('path');
+const fs = require('fs');
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 let requestHelpers = require('../helpers/request'); // eslint-disable-line prefer-const
 
-const printRequest = (options) => {
-  console.log(chalk.grey(`${options.method} ${options.url}`));
-};
+const getHeader = config => ({
+  'X-Auth-API-Key': config.api_key,
+  'X-Auth-Subdomain': config.course_name,
+});
 
 const getConfig = () => {
   const config = configHelpers.getConfigData();
@@ -14,117 +17,81 @@ const getConfig = () => {
   return config;
 }
 
-const getHeader = config => ({
-  'X-Auth-API-Key': config.api_key,
-  'X-Auth-Subdomain': config.course_name,
-});
+const formulateFormOptions = (url, method, data, isMultipart) => {
+  let dataOptions;
+  const config = getConfig();
+  const headers = getHeader(config);
+  const requestOptions = {
+    url: requestHelpers.buildUrl(config.env, url),
+    method,
+    headers,
+  };
+
+  if (isMultipart) {
+    const stream = fs.createReadStream(data.filename);
+    const filename = path.basename(data.filename);
+    const contentType = mime.lookup(data.filename);
+
+    dataOptions = {
+      formData: Object.assign({}, data, {
+        asset: {
+          value: stream,
+          options: {
+            filename,
+            contentType,
+          },
+        },
+      }),
+    };
+    delete dataOptions.formData.filename;
+  } else {
+    dataOptions = {
+      form: data,
+    };
+  }
+
+  return Object.assign({}, requestOptions, dataOptions);
+};
+
+const handleResponse = callback => (err, response, body) => {
+  const status = response.statusCode;
+  switch (status) {
+    case 200:
+    case 201:
+    case 202:
+      callback(err, JSON.parse(body));
+      break;
+    case 204:
+      callback(err, 'Success!');
+      break;
+    case 401:
+    case 400:
+      callback(JSON.parse(body).error);
+      break;
+    default:
+      callback(`Could not understand ${status} status`);
+      break;
+  }
+}
 
 const get = (url, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'GET',
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 200:
-        callback(err, JSON.parse(body));
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Could not understand ${status} status`);
-        break;
-    }
-  });
+  const options = formulateFormOptions(url, 'GET', {}, false);
+  request(options, handleResponse(callback));
 }
 
-const post = (url, data, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'POST',
-    form: data,
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 200:
-      case 201:
-        callback(err, JSON.parse(body));
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Unexpected response code: HTTP Status ${status}`);
-        break;
-    }
-  });
+const post = (url, data, isMultipart, callback) => {
+  const options = formulateFormOptions(url, 'POST', data, isMultipart);
+  request(options, handleResponse(callback));
 }
 
-const put = (url, data, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'PUT',
-    form: data,
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 202:
-        callback(err, JSON.parse(body));
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Unexpected response code: HTTP Status ${status}`);
-        break;
-    }
-  });
+const put = (url, data, isMultipart, callback) => {
+  const options = formulateFormOptions(url, 'PUT', data, isMultipart);
+  request(options, handleResponse(callback));
 }
 
 const remove = (url, data, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'DELETE',
-    form: data,
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 204:
-        callback(err, {});
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Unexpected response code: HTTP Status ${status}`);
-        break;
-    }
-  });
+  const options = formulateFormOptions(url, 'DELETE', data, false);
+  request(options, handleResponse(callback));
 }
 
 module.exports = {

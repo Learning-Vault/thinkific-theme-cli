@@ -22,7 +22,7 @@ const interval = 100;
  */
 const generateTheme = (themeId, callback) => {
   print('Requesting generation:\n');
-  request.post(BASE, { theme_id: themeId }, (err, response) => {
+  request.post(BASE, { theme_id: themeId }, false, (err, response) => {
     let _generationErr = err;
 
     if (!_generationErr && configHelpers.themeDirExistsSync(response.theme_name)) {
@@ -142,8 +142,7 @@ const download = (themeId) => {
       msg = chalk.red(`\n${err}\n\n`);
     } else {
       const path = chalk.green(`${config.path}/${data.theme_name}`);
-      msg = '\nThe data.theme_name theme can be found here:\n' +
-      `${path} !!!!\n\n`
+      msg = `\nThe ${data.theme_name} theme can be found here:\n${path} !!!!\n\n`;
     }
     print(msg);
   }

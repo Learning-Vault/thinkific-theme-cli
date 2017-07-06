@@ -9,12 +9,13 @@ let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-
 
 const syncFile = (eventType, themeId, themePath, filename) => {
   const resource = filename.replace(`${themePath}/`, '');
-  const content = (eventType !== 'unlink') ? fs.readFileSync(filename).toString('utf8') : '';
-  const service = resource.startsWith("assets") ? assetService: customSiteThemeViewService;
+  // console.log(filename);
+  // const content = (eventType !== 'unlink') ? fs.readFileSync(filename) : '';
+  const service = resource.startsWith('assets') ? assetService : customSiteThemeViewService;
   switch (eventType) {
     case 'add':
       print(chalk.green(`${resource}: Uploading File!\n`));
-      service.post(themeId, resource, content, (err) => {
+      service.post(themeId, resource, filename, (err) => {
         if (err) {
           print(chalk.red(`${resource}: ${err}\n`));
         } else {
@@ -24,7 +25,7 @@ const syncFile = (eventType, themeId, themePath, filename) => {
       break;
     case 'change':
       print(chalk.green(`${resource}: Uploading changes\n`));
-      service.put(themeId, resource, content, (err) => {
+      service.put(themeId, resource, filename, (err) => {
         if (err) {
           print(chalk.red(`${resource}: ${err}\n`));
         } else {

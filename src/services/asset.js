@@ -3,16 +3,39 @@ let request = require('../base/request'); // eslint-disable-line prefer-const
 
 const BASE = 'assets';
 
-const post = (themeId, relativePath, content, callback) => {
-  callback('to be implemented');
+const post = (themeId, path, filename, callback) => {
+  const data = {
+    theme_id: themeId,
+    path,
+    filename,
+  }
+
+  request.post(BASE, data, true, (err, response) => {
+    callback(err, response);
+  });
 }
 
-const put = (themeId, relativePath, content, callback) => {
-  callback('to be implemented');
+const put = (themeId, path, filename, callback) => {
+  const data = {
+    theme_id: themeId,
+    path,
+    filename,
+  }
+
+  request.put(`${BASE}/${themeId}`, data, true, (err, response) => {
+    callback(err, response);
+  });
 }
 
-const destroy = (themeId, relativePath, callback) => {
-  callback('to be implemented');
+const destroy = (themeId, path, callback) => {
+  const data = {
+    theme_id: themeId,
+    path,
+  }
+
+  request.remove(`${BASE}/${themeId}`, data, (err, response) => {
+    callback(err, response);
+  });
 }
 
 module.exports = {
