@@ -1,6 +1,6 @@
 {
   "name": "think-npm",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Thinkific NPM Tool",
   "bin": {
     "thinkcli": "./bin/think.js"
