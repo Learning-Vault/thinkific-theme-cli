@@ -1,14 +1,11 @@
 // for test purposes, we need to overwrite the request module.
 const request = require('request');
-const mime = require('mime');
-const path = require('path');
-const fs = require('fs');
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 let requestHelpers = require('../helpers/request'); // eslint-disable-line prefer-const
 
 const getHeader = config => ({
   'X-Auth-API-Key': config.api_key,
-  'X-Auth-Subdomain': config.course_name,
+  'X-Auth-Subdomain': config.subdomain,
 });
 
 const getConfig = () => {
@@ -17,56 +14,22 @@ const getConfig = () => {
   return config;
 }
 
-const formulateFormOptions = (url, method, data, isMultipart) => {
-  let dataOptions;
-  const config = getConfig();
-  const headers = getHeader(config);
-  const requestOptions = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method,
-    headers,
-  };
-
-  if (isMultipart) {
-    const stream = fs.createReadStream(data.filename);
-    const filename = path.basename(data.filename);
-    const contentType = mime.lookup(data.filename);
-
-    dataOptions = {
-      formData: Object.assign({}, data, {
-        asset: {
-          value: stream,
-          options: {
-            filename,
-            contentType,
-          },
-        },
-      }),
-    };
-    delete dataOptions.formData.filename;
-  } else {
-    dataOptions = {
-      form: data,
-    };
-  }
-
-  return Object.assign({}, requestOptions, dataOptions);
-};
-
-const handleResponse = callback => (err, response, body) => {
+const handleResponse = (err, response, callback) => {
   const status = response.statusCode;
   switch (status) {
     case 200:
     case 201:
     case 202:
-      callback(err, JSON.parse(body));
+      callback(err, JSON.parse(response.body));
       break;
     case 204:
       callback(err, 'Success!');
       break;
     case 401:
+      callback('Unauthorized');
+      break;
     case 400:
-      callback(JSON.parse(body).error);
+      callback('Bad Request');
       break;
     default:
       callback(`Could not understand ${status} status`);
@@ -74,24 +37,38 @@ const handleResponse = callback => (err, response, body) => {
   }
 }
 
+const formulateOptions = (method, url, dataOptions) => {
+  const config = getConfig();
+  const requestOptions = {
+    url: requestHelpers.buildUrl(config.env, url),
+    method,
+    headers: getHeader(config),
+  };
+  return Object.assign({}, requestOptions, dataOptions);
+}
+
 const get = (url, callback) => {
-  const options = formulateFormOptions(url, 'GET', {}, false);
-  request(options, handleResponse(callback));
+  request(formulateOptions('GET', url, {}), (err, response) => {
+    handleResponse(err, response, callback)
+  });
 }
 
-const post = (url, data, isMultipart, callback) => {
-  const options = formulateFormOptions(url, 'POST', data, isMultipart);
-  request(options, handleResponse(callback));
+const post = (url, dataOptions, callback) => {
+  request(formulateOptions('POST', url, dataOptions), (err, response) => {
+    handleResponse(err, response, callback);
+  });
 }
 
-const put = (url, data, isMultipart, callback) => {
-  const options = formulateFormOptions(url, 'PUT', data, isMultipart);
-  request(options, handleResponse(callback));
+const put = (url, dataOptions, callback) => {
+  request(formulateOptions('PUT', url, dataOptions), (err, response) => {
+    handleResponse(err, response, callback)
+  });
 }
 
-const remove = (url, data, callback) => {
-  const options = formulateFormOptions(url, 'DELETE', data, false);
-  request(options, handleResponse(callback));
+const remove = (url, dataOptions, callback) => {
+  request(formulateOptions('DELETE', url, dataOptions), (err, response) => {
+    handleResponse(err, response, callback)
+  });
 }
 
 module.exports = {

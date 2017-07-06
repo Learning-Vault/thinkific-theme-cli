@@ -1,7 +1,6 @@
 const chokidar = require('chokidar');
 const path = require('path');
 const chalk = require('chalk');
-const fs = require('fs');
 const customSiteThemeViewService = require('../services/custom-site-theme-view');
 const assetService = require('../services/asset');
 let print = require('../print'); // eslint-disable-line prefer-const
@@ -9,13 +8,12 @@ let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-
 
 const syncFile = (eventType, themeId, themePath, filename) => {
   const resource = filename.replace(`${themePath}/`, '');
-  // console.log(filename);
-  // const content = (eventType !== 'unlink') ? fs.readFileSync(filename) : '';
   const service = resource.startsWith('assets') ? assetService : customSiteThemeViewService;
   switch (eventType) {
     case 'add':
-      print(chalk.green(`${resource}: Uploading File!\n`));
-      service.post(themeId, resource, filename, (err) => {
+      print(chalk.green(`${resource}: Creating File!\n`));
+
+      service.post(themeId, filename, (err) => {
         if (err) {
           print(chalk.red(`${resource}: ${err}\n`));
         } else {
@@ -25,7 +23,8 @@ const syncFile = (eventType, themeId, themePath, filename) => {
       break;
     case 'change':
       print(chalk.green(`${resource}: Uploading changes\n`));
-      service.put(themeId, resource, filename, (err) => {
+
+      service.put(themeId, filename, (err) => {
         if (err) {
           print(chalk.red(`${resource}: ${err}\n`));
         } else {
@@ -35,7 +34,8 @@ const syncFile = (eventType, themeId, themePath, filename) => {
       break;
     case 'unlink':
       print(chalk.green(`${resource}: Deleting File\n`));
-      service.destroy(themeId, resource, (err) => {
+
+      service.destroy(themeId, filename, (err) => {
         if (err) {
           print(chalk.red(`${resource}: ${err}\n`));
         } else {

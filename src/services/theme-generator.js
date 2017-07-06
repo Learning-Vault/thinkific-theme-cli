@@ -22,7 +22,10 @@ const interval = 100;
  */
 const generateTheme = (themeId, callback) => {
   print('Requesting generation:\n');
-  request.post(BASE, { theme_id: themeId }, false, (err, response) => {
+  const data = {
+    form: { theme_id: themeId },
+  };
+  request.post(BASE, data, (err, response) => {
     let _generationErr = err;
 
     if (!_generationErr && configHelpers.themeDirExistsSync(response.theme_name)) {

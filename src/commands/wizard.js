@@ -57,7 +57,7 @@ const setup = () => {
   };
 
   addQuestion('api_key', 'Type in API your API key:');
-  addQuestion('course_name', 'Type in course name:');
+  addQuestion('subdomain', 'Type in subdomain name:');
   addQuestion('path', 'Type the path to your themes:', (input) => {
     if (!fs.existsSync(input)) {
       throw Error('Directory doesn\'t exist');
