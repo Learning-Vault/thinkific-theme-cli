@@ -2,26 +2,28 @@ const should = require('should');
 const rewire = require('rewire');
 const sinon = require('sinon');
 const fixture = require('../fixtures/config-sample.json');
+let configHelpers = require('../../src/helpers/config'); // eslint-disable-line prefer-const
 
 const service = rewire('../../src/services/theme-generator');
 
 describe('themes generator service', () => {
+  before((callback) => {
+    service.__set__('print', () => {});
+    callback();
+  });
+
   describe('has a download function', () => {
     it('that throws an error if credentials are missing', () => {
-      const helpers = {
-        getConfigData: () => {},
-      };
-      service.__set__('helpers', helpers);
+      configHelpers.getConfigData = () => {};
+      service.__set__('configHelpers', configHelpers);
       should.throws(() => {
         service.download();
       });
     });
 
     it('throws an error if the workspace doesn\'t exist', () => {
-      const helpers = {
-        getConfigData: () => ({ path: 'invalid-path' }),
-      };
-      service.__set__('helpers', helpers);
+      configHelpers.getConfigData = () => ({ path: 'invalid-path' });
+      service.__set__('configHelpers', configHelpers);
       should.throws(() => {
         service.download();
       });
@@ -97,7 +99,7 @@ describe('themes generator service', () => {
       const data = {
         tmp: 'hello-world',
       };
-      const configHelpers = { getConfigData: () => fixture };
+      configHelpers.getConfigData = () => fixture;
       const extract = (tmp, opts, callback) => {
         tmp.should.equal(data.tmp);
         callback();

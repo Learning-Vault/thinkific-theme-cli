@@ -11,7 +11,6 @@ const extend = require('util')._extend
 
 const BASE = 'custom_site_theme_generator';
 const interval = 100;
-const config = configHelpers.getConfigData();
 
 /**
  * Sends a request to thinkific to get the theme generated
@@ -23,7 +22,10 @@ const config = configHelpers.getConfigData();
  */
 const generateTheme = (themeId, callback) => {
   print('Requesting generation:\n');
-  request.post(BASE, { theme_id: themeId }, (err, response) => {
+  const data = {
+    form: { theme_id: themeId },
+  };
+  request.post(BASE, data, (err, response) => {
     let _generationErr = err;
 
     if (!_generationErr && configHelpers.themeDirExistsSync(response.theme_name)) {
@@ -87,6 +89,7 @@ const downloadFile = (data, callback) => {
  * @param {function} callback
  */
 const extractTheme = (data, callback) => {
+  const config = configHelpers.getConfigData();
   const dir = `${config.path}/${data.theme_name}`;
   print(`${chalk.green('extracting!')}\n`);
   extract(data.tmp, { dir }, (err) => {
@@ -107,6 +110,7 @@ const extractTheme = (data, callback) => {
  */
 const updateConfigFile = (data, callback) => {
   print(`${chalk.green('Updating config!')}\n`);
+  const config = configHelpers.getConfigData();
   if (!config.themes[data.theme_id]) {
     config.themes[data.theme_id] = data.theme_name;
   }
@@ -125,6 +129,7 @@ const updateConfigFile = (data, callback) => {
  *  . once theme has been generated, download file into theme workspace
  */
 const download = (themeId) => {
+  const config = configHelpers.getConfigData();
   if (Object.keys(config).length === 0) {
     throw Error('Credentials missing');
   }
@@ -140,8 +145,7 @@ const download = (themeId) => {
       msg = chalk.red(`\n${err}\n\n`);
     } else {
       const path = chalk.green(`${config.path}/${data.theme_name}`);
-      msg = '\nThe data.theme_name theme can be found here:\n' +
-      `${path} !!!!\n\n`
+      msg = `\nThe ${data.theme_name} theme can be found here:\n${path} !!!!\n\n`;
     }
     print(msg);
   }

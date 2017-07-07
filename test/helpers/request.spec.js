@@ -14,7 +14,7 @@ describe('request Helpers', () => {
 
     it('raises an error if invalid env is passed', () => {
       should.throws(() => {
-        console.log(requestHelpers.buildUrl('invalid-env', 'hello/world'));
+        requestHelpers.buildUrl('invalid-env', 'hello/world')
       });
     });
 

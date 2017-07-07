@@ -15,7 +15,7 @@ describe('request', () => {
     configHelpers = {
       getConfigData: () => ({
         api_key: '1e8af83bf61d68de8d08a1f4dee08cdc',
-        course_name: 'school',
+        subdomain: 'school',
         path: __dirname,
         env: 'test',
       }),

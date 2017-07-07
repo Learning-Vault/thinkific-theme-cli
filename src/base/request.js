@@ -1,12 +1,12 @@
 // for test purposes, we need to overwrite the request module.
 const request = require('request');
-const chalk = require('chalk');
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 let requestHelpers = require('../helpers/request'); // eslint-disable-line prefer-const
 
-const printRequest = (options) => {
-  console.log(chalk.grey(`${options.method} ${options.url}`));
-};
+const getHeader = config => ({
+  'X-Auth-API-Key': config.api_key,
+  'X-Auth-Subdomain': config.subdomain,
+});
 
 const getConfig = () => {
   const config = configHelpers.getConfigData();
@@ -14,116 +14,60 @@ const getConfig = () => {
   return config;
 }
 
-const getHeader = config => ({
-  'X-Auth-API-Key': config.api_key,
-  'X-Auth-Subdomain': config.course_name,
-});
+const handleResponse = (err, response, callback) => {
+  const status = response.statusCode;
+  switch (status) {
+    case 200:
+    case 201:
+    case 202:
+      callback(err, JSON.parse(response.body));
+      break;
+    case 204:
+      callback(err, 'Success!');
+      break;
+    case 401:
+      callback('Unauthorized');
+      break;
+    case 400:
+      callback('Bad Request');
+      break;
+    default:
+      callback(`Could not understand ${status} status`);
+      break;
+  }
+}
+
+const formulateOptions = (method, url, dataOptions) => {
+  const config = getConfig();
+  const requestOptions = {
+    url: requestHelpers.buildUrl(config.env, url),
+    method,
+    headers: getHeader(config),
+  };
+  return Object.assign({}, requestOptions, dataOptions);
+}
 
 const get = (url, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'GET',
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 200:
-        callback(err, JSON.parse(body));
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Could not understand ${status} status`);
-        break;
-    }
+  request(formulateOptions('GET', url, {}), (err, response) => {
+    handleResponse(err, response, callback)
   });
 }
 
-const post = (url, data, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'POST',
-    form: data,
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 200:
-      case 201:
-        callback(err, JSON.parse(body));
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Unexpected response code: HTTP Status ${status}`);
-        break;
-    }
+const post = (url, dataOptions, callback) => {
+  request(formulateOptions('POST', url, dataOptions), (err, response) => {
+    handleResponse(err, response, callback);
   });
 }
 
-const put = (url, data, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'PUT',
-    form: data,
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 202:
-        callback(err, JSON.parse(body));
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Unexpected response code: HTTP Status ${status}`);
-        break;
-    }
+const put = (url, dataOptions, callback) => {
+  request(formulateOptions('PUT', url, dataOptions), (err, response) => {
+    handleResponse(err, response, callback)
   });
 }
 
-const remove = (url, data, callback) => {
-  const config = getConfig();
-  const headers = getHeader(config);
-  const options = {
-    url: requestHelpers.buildUrl(config.env, url),
-    method: 'DELETE',
-    form: data,
-    headers,
-  }
-  printRequest(options);
-  request(options, (err, response, body) => {
-    const status = response.statusCode;
-    switch (status) {
-      case 204:
-        callback(err, {});
-        break;
-      case 401:
-      case 400:
-        callback(JSON.parse(body).error);
-        break;
-      default:
-        callback(`Unexpected response code: HTTP Status ${status}`);
-        break;
-    }
+const remove = (url, dataOptions, callback) => {
+  request(formulateOptions('DELETE', url, dataOptions), (err, response) => {
+    handleResponse(err, response, callback)
   });
 }
 

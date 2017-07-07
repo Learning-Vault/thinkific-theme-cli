@@ -1,19 +1,30 @@
 // we want to unit the functions in this module
 let request = require('../base/request'); // eslint-disable-line prefer-const
-const themeHelpers = require('../helpers/themes')
 const fs = require('fs');
+const mime = require('mime');
+const path = require('path');
+const themeHelpers = require('../helpers/themes');
 
-const BASE = 'custom_site_theme_views';
+const BASE = 'assets';
 
-const formulatePostData = (themeId, filename) => {
+const formulateMultipartData = (themeId, filename) => {
+  const stream = fs.createReadStream(filename);
+  const file = path.basename(filename);
   const resource = themeHelpers.getResourcePath(themeId, filename);
-  const content = fs.readFileSync(filename);
+  const contentType = mime.lookup(filename);
+
   return {
-    form: {
+    formData: Object.assign({}, {
       theme_id: themeId,
       path: resource,
-      content,
-    },
+      asset: {
+        value: stream,
+        options: {
+          file,
+          contentType,
+        },
+      },
+    }),
   };
 };
 
@@ -23,18 +34,18 @@ const formulateDeleteData = (themeId, filename) => {
     form: {
       theme_id: themeId,
       path: resource,
-    },
+    }
   };
 };
 
 const post = (themeId, filename, callback) => {
-  request.post(BASE, formulatePostData(themeId, filename), (err, response) => {
+  request.post(BASE, formulateMultipartData(themeId, filename), (err, response) => {
     callback(err, response);
   });
 }
 
 const put = (themeId, filename, callback) => {
-  request.put(`${BASE}/${themeId}`, formulatePostData(themeId, filename), (err, response) => {
+  request.put(`${BASE}/${themeId}`, formulateMultipartData(themeId, filename), (err, response) => {
     callback(err, response);
   });
 }
