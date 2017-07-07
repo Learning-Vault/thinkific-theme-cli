@@ -3,11 +3,16 @@ const path = require('path');
 const chalk = require('chalk');
 const customSiteThemeViewService = require('../services/custom-site-theme-view');
 const assetService = require('../services/asset');
+const themesHelpers = require('../helpers/themes');
 let print = require('../print'); // eslint-disable-line prefer-const
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 
 const syncFile = (eventType, themeId, themePath, filename) => {
   const resource = filename.replace(`${themePath}/`, '');
+  if ( themesHelpers.isHiddenFile(resource) ) {
+    print(chalk.yellow(`${resource}: Ignoring hidden file\n`));
+    return;
+  }
   const service = resource.startsWith('assets') ? assetService : customSiteThemeViewService;
   switch (eventType) {
     case 'add':
