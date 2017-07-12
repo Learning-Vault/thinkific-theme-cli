@@ -10,7 +10,7 @@ const getResourcePath = (themeId, filename) => {
  * A file is hidden if it's in a hidden directory
  * or if it's a hidden file
  */
-const isHiddenFile = resource => resource.split('/').some(word => word.match(/\.[^\/]/));
+const isHiddenFile = resource => resource.split('/').some(word => word.match(/^\.[^\/]/));
 
 module.exports = {
   getResourcePath,
