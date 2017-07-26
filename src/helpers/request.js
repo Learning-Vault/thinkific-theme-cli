@@ -1,7 +1,7 @@
 const DOMAINS = {
   test: 'localhost:3000',
   local: 'school.lvh.me:3000',
-  staging: 'thinkific-staging.com',
+  staging: 'api.thinkific-staging.com',
   production: 'api.thinkific.com',
 }
 const API_PREFIX = 'api/public';
