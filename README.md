@@ -8,6 +8,27 @@ Thinkific NPM Tool
 * You'll need a thinkific API V1 key
 * Run `thinkcli` and you should be able to continue from there
 
+### Recreating manifests
+There is a configuration option, `recreate_manifests`, which defaults to false. When this option is true, it will delete and recreate any manifests that are affected by a change. This means you can change default values in a schema and have these take immediate affect on your site via the sync. If the configuration is false, changing a default value would not override the existing value in a manifest and therefore not take affect on your site.
+
+To change this configuration, you need to manually update your `~/.thinkific_config` file. e.g.
+
+```
+{
+  "api_key": "xxx",
+  "subdomain": "my-school",
+  "path": "/Users/ianmooney/Thinkific/themes",
+  "env": "production",
+  "recreate_manifests": true,
+  "themes": {
+    "1900": "horizon/src"
+  }
+}
+
+```
+
+**BEWARE:** This configuration is destructive and can permanently delete existing content on a theme, so only use on test themes.
+
 # Know issues
 * Help message isn't very friendly eg. `thinkcli themes <subcommand:list|download> <theme_id>`
 * As it is at the moment, the sync is strict. Nothing should happen to the theme when sync command
