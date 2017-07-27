@@ -71,6 +71,7 @@ const setup = () => {
       print(chalk.red(err));
     } else {
       _responses.env = 'production';
+      _responses.recreate_manifests = false;
       _responses.themes = credentials.themes || {};
       configHelpers.setConfigData(responses, () => {
         print(chalk.green('\nCredentials saved\n'));
