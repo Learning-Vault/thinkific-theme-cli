@@ -29,7 +29,8 @@ const handleResponse = (err, response, callback) => {
       callback('Unauthorized');
       break;
     case 400:
-      callback('Bad Request');
+      var body = JSON.parse(response.body);
+      callback('Bad Request: ' + body.error);
       break;
     default:
       callback(`Could not understand ${status} status`);
