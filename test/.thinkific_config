@@ -1,0 +1,10 @@
+{
+  "api_key": "abc123",
+  "subdomain": "school",
+  "path": "/Users/ianmooney/Thinkific/themes",
+  "env": "test",
+  "recreate_manifests": true,
+  "themes": {
+    "123": "horizon/src"
+  }
+}
