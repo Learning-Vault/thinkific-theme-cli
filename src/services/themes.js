@@ -1,14 +1,12 @@
 // we want to unit the functions in this module
 let request = require('../base/request'); // eslint-disable-line prefer-const
-const themeHelpers = require('../helpers/themes')
-const fs = require('fs');
+let fs = require('fs'); // eslint-disable-line prefer-const
 const configHelper = require('../helpers/config');
 
 const config = configHelper.getConfigData();
 const BASE = 'custom_site_themes';
 
 const formulatePutData = (themeId, filename) => {
-  const resource = themeHelpers.getResourcePath(themeId, filename);
   const content = fs.readFileSync(filename);
   return {
     form: {
