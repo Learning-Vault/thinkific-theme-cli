@@ -1,6 +1,7 @@
 const chokidar = require('chokidar');
 const path = require('path');
 const chalk = require('chalk');
+const themeService = require('../services/themes');
 const customSiteThemeViewService = require('../services/custom-site-theme-view');
 const assetService = require('../services/asset');
 const themesHelpers = require('../helpers/themes');
@@ -13,7 +14,7 @@ const syncFile = (eventType, themeId, themePath, filename) => {
     print(chalk.yellow(`${resource}: Ignoring hidden file\n`));
     return;
   }
-  const service = resource.startsWith('assets') ? assetService : customSiteThemeViewService;
+  const service = fetchService(resource);
   switch (eventType) {
     case 'add':
       print(chalk.green(`${resource}: Creating File!\n`));
@@ -53,6 +54,16 @@ const syncFile = (eventType, themeId, themePath, filename) => {
       break;
   }
 };
+
+const fetchService = (resource) => {
+  if (resource == 'manifest.json') {
+    return themeService;
+  } else if (resource.startsWith('assets')) {
+    return assetService;
+  } else {
+    return customSiteThemeViewService;
+  }
+}
 
 const run = (themeId) => {
   const config = configHelpers.getConfigData();
