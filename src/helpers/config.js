@@ -3,8 +3,14 @@ let fs = require('fs'); // eslint-disable-line prefer-const
 
 const configFile = '.thinkific_config';
 
-let getConfigPath = () =>  // eslint-disable-line prefer-const
-   path.resolve(process.env.HOME, configFile)
+
+let getConfigPath = () =>  { // eslint-disable-line prefer-const
+  if (process.env.NODE_ENV == 'test') {
+    return path.resolve(process.env.PWD, 'test', configFile);
+  } else {
+    return path.resolve(process.env.HOME, configFile);
+  }
+}
 
 const getConfigData = () => {
   // load previous credentials (if applicable)
