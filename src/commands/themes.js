@@ -30,6 +30,7 @@ const list = () => {
     }
     let content = `
 ${chalk.bold('Themes found in your account:')}
+${chalk.bold.red('** Note that this tool only supports themes with a version of 2.0.0 or greater. **')}
 
 `;
     content += chalk.grey('\tID:\tName\n');
