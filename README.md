@@ -38,6 +38,7 @@ is not watching the files.
 # How to develop
 * Clone it `git clone git@github.com:thinkific/think-npm.git`
 * Install dependencies `npm install`
+* Run locally `./bin/think.js themes list`
 
 # License
 

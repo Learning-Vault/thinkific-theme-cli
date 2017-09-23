@@ -61,8 +61,8 @@ const run = (args) => {
 };
 
 module.exports = new Command({
-  description: 'Downloads and syncs views with thinkific',
-  commandSample: 'thinkcli themes <subcommand:list|download|sync> <theme_id>',
+  description: 'List the themes in your Thinkific site | Download a specific theme by id | Watch a specific theme and sync it with your Thinkific site',
+  commandSample: 'thinkcli themes <subcommand: (list|download|sync)> <theme_id>',
   validateArgs,
   run,
 });
