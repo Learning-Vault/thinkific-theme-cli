@@ -33,7 +33,7 @@ To change this configuration, you need to manually update your `~/.thinkific_con
 * Help message isn't very friendly eg. `thinkcli themes <subcommand:list|download> <theme_id>`
 * As it is at the moment, the sync is strict. Nothing should happen to the theme when sync command
 is not watching the files.
-* Support only exists for themes of version 2 greater. There is no support for version 1 themes.
+* Support only exists for themes of version 2.1.x and greater. There is no support for version 1 themes.
 
 # How to develop
 * Clone it `git clone git@github.com:thinkific/think-npm.git`
