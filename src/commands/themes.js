@@ -30,6 +30,7 @@ const list = () => {
     }
     let content = `
 ${chalk.bold('Themes found in your account:')}
+${chalk.bold.red('** Note that this tool only supports themes with a version of 2.1.0 or greater. **')}
 
 `;
     content += chalk.grey('\tID:\tName\n');
@@ -61,8 +62,8 @@ const run = (args) => {
 };
 
 module.exports = new Command({
-  description: 'Downloads and syncs views with thinkific',
-  commandSample: 'thinkcli themes <subcommand:list|download|sync> <theme_id>',
+  description: 'List the themes in your Thinkific site | Download a specific theme by id | Watch a specific theme and sync it with your Thinkific site',
+  commandSample: 'thinkcli themes <subcommand: (list|download|sync)> <theme_id>',
   validateArgs,
   run,
 });
