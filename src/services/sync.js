@@ -5,16 +5,14 @@ const themeService = require('../services/themes');
 const customSiteThemeViewService = require('../services/custom-site-theme-view');
 const assetService = require('../services/asset');
 const themesHelpers = require('../helpers/themes');
+//let fs = require('fs'); // eslint-disable-line prefer-const
 let print = require('../print'); // eslint-disable-line prefer-const
 let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-const
 
 const syncFile = (eventType, themeId, themePath, filename) => {
+
   const resource = filename.replace(`${themePath}/`, '');
-  if ( themesHelpers.isGitFolder(resource) ) {
-    //print(chalk.yellow(`${resource}: Ignoring Git file\n`));
-   //Silently ignore
-    return;
-  }else if ( themesHelpers.isHiddenFile(resource) ) {
+  if ( themesHelpers.isHiddenFile(resource) ) {
     print(chalk.yellow(`${resource}: Ignoring hidden file\n`));
     return;
   }
@@ -70,7 +68,14 @@ const fetchService = (resource) => {
 }
 
 const run = (themeId) => {
+  print(`\nUsing Config File: ${chalk.green(configHelpers.getConfigPath())}\n`);
+  
+
   const config = configHelpers.getConfigData();
+
+  print(`Subdomain: ${chalk.green(config.subdomain)}\n`);
+  print(`Path: ${chalk.green(config.path)}\n`);
+  
   if (!themeId) throw Error('Missing theme id');
   if (!config.themes[themeId]) throw Error('Invalid theme id!');
   if (!configHelpers.themeDirExistsSync(config.themes[themeId])) {
@@ -78,13 +83,20 @@ const run = (themeId) => {
   }
   const themePath = path.resolve(config.path, config.themes[themeId]);
   let ready = false;
-  print(`Watching File Structure: ${chalk.bold(themePath)}!!\n`);
+
+  print(`Watching File Structure: ${chalk.green(themePath)}\n\n`);
+  
+
+  // print(`${process.env.PWD}: PWD!\n`);
+  // print(`${process.env.HOME}: HOME!\n`);
+  // print(`${process.env.NODE_ENV}: NODE_ENV!\n`);
   print('Warming Up...\n');
   chokidar.watch(themePath, {
      filter: /\.liquid$/,
      recursive: true,
      usePolling: true,
      interval: 2,
+     ignored: ['**/.git']
   }).on('ready', () => {
       ready = true;
       print('Go and make Magic!\n');
