@@ -12,7 +12,11 @@ const getResourcePath = (themeId, filename) => {
  */
 const isHiddenFile = resource => resource.split('/').some(word => word.match(/^\.[^\/]/));
 
+const isGitFolder = resource => resource.startsWith('.git');
+
+
 module.exports = {
   getResourcePath,
   isHiddenFile,
+  isGitFolder
 }

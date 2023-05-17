@@ -10,7 +10,11 @@ let configHelpers = require('../helpers/config'); // eslint-disable-line prefer-
 
 const syncFile = (eventType, themeId, themePath, filename) => {
   const resource = filename.replace(`${themePath}/`, '');
-  if ( themesHelpers.isHiddenFile(resource) ) {
+  if ( themesHelpers.isGitFolder(resource) ) {
+    //print(chalk.yellow(`${resource}: Ignoring Git file\n`));
+   //Silently ignore
+    return;
+  }else if ( themesHelpers.isHiddenFile(resource) ) {
     print(chalk.yellow(`${resource}: Ignoring hidden file\n`));
     return;
   }
@@ -75,12 +79,17 @@ const run = (themeId) => {
   const themePath = path.resolve(config.path, config.themes[themeId]);
   let ready = false;
   print(`Watching File Structure: ${chalk.bold(themePath)}!!\n`);
-  print('Go and make Magic!\n');
-  print('------------------\n');
+  print('Warming Up...\n');
   chokidar.watch(themePath, {
-    filter: /\.liquid$/,
-    recursive: true,
-  }).on('ready', () => (ready = true))
+     filter: /\.liquid$/,
+     recursive: true,
+     usePolling: true,
+     interval: 2,
+  }).on('ready', () => {
+      ready = true;
+      print('Go and make Magic!\n');
+      print('------------------\n');
+    })
     .on('add', (filename) => { if (ready) syncFile('add', themeId, themePath, filename); })
     .on('change', (filename) => { if (ready) syncFile('change', themeId, themePath, filename) })
     .on('unlink', (filename) => { if (ready) syncFile('unlink', themeId, themePath, filename) });
